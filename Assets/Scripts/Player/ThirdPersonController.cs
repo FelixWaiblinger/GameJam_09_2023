@@ -119,17 +119,10 @@ public class ThirdPersonController : MonoBehaviour {
     private void OnEnable() {
         _input.PlayerDefault.Enable();
         _input.PlayerDefault.Jump.started += DoJump;
-        //_input.PlayerDefault.Jump.started += test;
-        //_input.PlayerDefault.Jump.performed += test;
-        //_input.PlayerDefault.Jump.canceled += test;
         _move = _input.PlayerDefault.Move;
         _sprint = _input.PlayerDefault.Sprint;
         _sprint.started += OnSprintPressed;
         _sprint.canceled += OnSprintReleased;
-    }
-
-    private void test(InputAction.CallbackContext cb) {
-        Debug.Log(cb.phase);
     }
 
     private void OnSprintPressed(InputAction.CallbackContext obj) {;
@@ -179,7 +172,7 @@ public class ThirdPersonController : MonoBehaviour {
         // if there is no input, set the target speed to 0
         if (_move.ReadValue<Vector2>() == Vector2.zero) targetSpeed = 0.0f; _speed = 0.0f;
 
-        //Debug.Log(_move.ReadValue<Vector2>());
+        // Debug.Log(_move.ReadValue<Vector2>());
         // a reference to the players current horizontal velocity
         float currentHorizontalSpeed = new Vector3(_myRB.velocity.x, 0.0f, _myRB.velocity.z).magnitude;
 
