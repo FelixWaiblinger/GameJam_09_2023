@@ -1,0 +1,16 @@
+:root {
+	background-color: yellow;
+
+}
+
+
+* {
+	border-color: red;
+	border-width: 2px;
+}
+
+*::hover {
+	border-radius: 15px;
+	transition: 0.25s all;
+}
+
