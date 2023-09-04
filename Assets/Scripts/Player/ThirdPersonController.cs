@@ -119,10 +119,17 @@ public class ThirdPersonController : MonoBehaviour {
     private void OnEnable() {
         _input.PlayerDefault.Enable();
         _input.PlayerDefault.Jump.started += DoJump;
+        //_input.PlayerDefault.Jump.started += test;
+        //_input.PlayerDefault.Jump.performed += test;
+        //_input.PlayerDefault.Jump.canceled += test;
         _move = _input.PlayerDefault.Move;
         _sprint = _input.PlayerDefault.Sprint;
         _sprint.started += OnSprintPressed;
         _sprint.canceled += OnSprintReleased;
+    }
+
+    private void test(InputAction.CallbackContext cb) {
+        Debug.Log(cb.phase);
     }
 
     private void OnSprintPressed(InputAction.CallbackContext obj) {;
