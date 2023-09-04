@@ -167,7 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 502513c5eea3d834fac94835f2e66fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioEvent: {fileID: 0}
   _music: []
 --- !u!1 &736226665
 GameObject:
@@ -434,8 +433,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdf26827a3a5b2e48a1833cd6600f767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetFPS: 60
-  _showFPS: 0
+  _targetFPS: 144
+  _showFPS: 1
   _framesUI: {fileID: 736226669}
   _FPS: {fileID: 778264502}
 --- !u!4 &951795431
@@ -480,7 +479,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050818111}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}

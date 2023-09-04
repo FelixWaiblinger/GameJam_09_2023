@@ -13,14 +13,22 @@ public class FPSHandler : MonoBehaviour
     [Tooltip("Text box in top-right corner")]
     [SerializeField] private TMP_Text _FPS;
 
+    private float _timer = 1;
+
     void Start()
     {
         Application.targetFrameRate = _targetFPS;
         if (_showFPS) _framesUI.enabled = true;
     }
 
-    void FixedUpdate() // yes this is intentional
+    void Update()
     {
-        _FPS.text = $"{(int)(1 / Time.deltaTime)} FPS";
+        _timer += Time.deltaTime;
+
+        if (_timer >= 1)
+        {
+            _FPS.text = $"{(int)(1 / Time.deltaTime)} FPS";
+            _timer = 0;
+        }
     }
 }
