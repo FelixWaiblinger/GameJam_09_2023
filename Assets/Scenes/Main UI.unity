@@ -241,6 +241,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &841191082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 841191084}
+  - component: {fileID: 841191083}
+  m_Layer: 0
+  m_Name: UpgradeScreenController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &841191083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841191082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca25f7491099f1c4d96157e03d340f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &841191084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841191082}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1571232596
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,9 +484,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a579d5f6935b84b926c412f7ae63cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _document: {fileID: 1790027989}
+  _UIDocument: {fileID: 1790027989}
   _styleSheet: {fileID: 7433441132597879392, guid: 214971ed4eab50a458149168e03372de,
     type: 3}
+  _skills:
+  - Firebolt
+  - Firering
+  - Firewall
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -450,3 +498,4 @@ SceneRoots:
   - {fileID: 1571232600}
   - {fileID: 164471529}
   - {fileID: 1790027990}
+  - {fileID: 841191084}
