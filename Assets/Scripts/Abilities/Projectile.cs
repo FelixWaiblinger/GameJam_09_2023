@@ -2,7 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Projectile : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
-    public abstract void Init(Transform target);
+    private Transform _target;
+
+    void Update()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, _target.position, 10 * Time.deltaTime);
+    }
+
+    public void Init(Transform target)
+    {
+        _target = target;
+    }
 }

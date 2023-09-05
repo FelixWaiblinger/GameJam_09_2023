@@ -14,7 +14,7 @@ public class ThirdPersonController : MonoBehaviour {
     }
 
     //Events
-    public static event Action<bool> OnGroundedChange;
+    // public static event Action<bool> OnGroundedChange;
 
     //input Fields
     private PlayerInput _playerInput;
@@ -209,7 +209,7 @@ public class ThirdPersonController : MonoBehaviour {
 
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-        //Debug.Log(_myRB.velocity);
+        // Debug.Log(targetDirection);
         
         // _move the player
         _myRB.AddForce ((targetDirection.normalized * _speed), ForceMode.VelocityChange);

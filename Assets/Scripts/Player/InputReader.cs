@@ -9,10 +9,11 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 	public static UnityAction<Vector2> moveEvent;
 	public static UnityAction<Vector2> lookEvent;
 	public static UnityAction<Vector2> mousePosEvent;
-	public static UnityAction sprintEvent;
+	public static UnityAction<float> zoomEvent;
+	public static UnityAction<bool> sprintEvent;
+	public static UnityAction<bool> panEvent;
 	public static UnityAction dashEvent;
 	public static UnityAction jumpEvent;
-	public static UnityAction panEvent;
 	public static UnityAction attackSlotEvent;
 	public static UnityAction primarySlotEvent;
 	public static UnityAction secondarySlotEvent;
@@ -75,7 +76,9 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 	public void OnSprint(InputAction.CallbackContext context)
 	{
         if (context.phase == InputActionPhase.Performed)
-		    sprintEvent?.Invoke();
+		    sprintEvent?.Invoke(true);
+		else
+			sprintEvent?.Invoke(false);
 	}
 
 	// move fast shortly (lshift click)
@@ -96,7 +99,15 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 	public void OnPan(InputAction.CallbackContext context)
 	{
 		if (context.phase == InputActionPhase.Performed)
-			panEvent?.Invoke();
+			panEvent?.Invoke(true);
+		else
+			panEvent?.Invoke(false);
+	}
+
+	// start move camera (right mouse hold)
+	public void OnZoom(InputAction.CallbackContext context)
+	{
+		zoomEvent?.Invoke(context.ReadValue<float>());
 	}
 
 	// attack (left mouse click)

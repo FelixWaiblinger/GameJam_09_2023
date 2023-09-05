@@ -82,6 +82,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""b059f107-1e12-45fd-95d3-0e56b2abab00"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""MousePos"",
                     ""type"": ""Value"",
                     ""id"": ""b1aa38d9-8c74-4ea7-9b4f-94ac2da0304b"",
@@ -345,6 +354,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""MousePos"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aad63d1e-86a8-4816-8ffe-2b5b2577dfc2"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
+                    ""groups"": ""MouseKeyboard"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -376,6 +396,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_GameControls_Jump = m_GameControls.FindAction("Jump", throwIfNotFound: true);
         m_GameControls_Pan = m_GameControls.FindAction("Pan", throwIfNotFound: true);
         m_GameControls_Look = m_GameControls.FindAction("Look", throwIfNotFound: true);
+        m_GameControls_Zoom = m_GameControls.FindAction("Zoom", throwIfNotFound: true);
         m_GameControls_MousePos = m_GameControls.FindAction("MousePos", throwIfNotFound: true);
         m_GameControls_AttackSlot = m_GameControls.FindAction("AttackSlot", throwIfNotFound: true);
         m_GameControls_PrimarySlot = m_GameControls.FindAction("PrimarySlot", throwIfNotFound: true);
@@ -449,6 +470,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameControls_Jump;
     private readonly InputAction m_GameControls_Pan;
     private readonly InputAction m_GameControls_Look;
+    private readonly InputAction m_GameControls_Zoom;
     private readonly InputAction m_GameControls_MousePos;
     private readonly InputAction m_GameControls_AttackSlot;
     private readonly InputAction m_GameControls_PrimarySlot;
@@ -465,6 +487,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_GameControls_Jump;
         public InputAction @Pan => m_Wrapper.m_GameControls_Pan;
         public InputAction @Look => m_Wrapper.m_GameControls_Look;
+        public InputAction @Zoom => m_Wrapper.m_GameControls_Zoom;
         public InputAction @MousePos => m_Wrapper.m_GameControls_MousePos;
         public InputAction @AttackSlot => m_Wrapper.m_GameControls_AttackSlot;
         public InputAction @PrimarySlot => m_Wrapper.m_GameControls_PrimarySlot;
@@ -498,6 +521,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
             @MousePos.started += instance.OnMousePos;
             @MousePos.performed += instance.OnMousePos;
             @MousePos.canceled += instance.OnMousePos;
@@ -538,6 +564,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
             @MousePos.started -= instance.OnMousePos;
             @MousePos.performed -= instance.OnMousePos;
             @MousePos.canceled -= instance.OnMousePos;
@@ -590,6 +619,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnPan(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
         void OnAttackSlot(InputAction.CallbackContext context);
         void OnPrimarySlot(InputAction.CallbackContext context);
