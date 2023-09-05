@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
-using UnityEditor;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
 public class InputReader : ScriptableObject, GameInput.IGameControlsActions
@@ -22,35 +21,16 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 
 	private GameInput gameInput;
 
-	#region SETUP
-
-	void OnEnable()
+	public void InitGameInput()
 	{
-		EditorApplication.playModeStateChanged += InitGameInput;
-	}
-	
-	void OnDisable()
-	{
-		EditorApplication.playModeStateChanged -= InitGameInput;
-		if (gameInput != null) DisableInput();
-	}
-
-	// strange workaround to fix manually refreshing input scriptable object instance
-	void InitGameInput(PlayModeStateChange stateChange)
-	{
-		if (stateChange == PlayModeStateChange.EnteredPlayMode)
+		if (gameInput == null)
 		{
-			if (gameInput == null)
-			{
-				gameInput = new GameInput();
-				gameInput.GameControls.SetCallbacks(this);
-			}
-
-	    	EnableInput();
+			gameInput = new GameInput();
+			gameInput.GameControls.SetCallbacks(this);
 		}
-	}
 
-	#endregion
+		EnableInput();
+	}
 
 	#region CALLBACKS
 
