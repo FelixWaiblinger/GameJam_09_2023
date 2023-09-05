@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Device;
 using UnityEngine.UIElements;
 
-public class UpgradeScreen
-{
-    private VisualElement _screen = new VisualElement();
-
+public class UpgradeScreen : UIScreen {
+    
     private string[] _skills;
 
     public UpgradeScreen(params string[] skills) {
+        _screen.AddToClassList("upgradeMenu");
         _skills = skills;
         Generate();
     }
@@ -21,17 +21,4 @@ public class UpgradeScreen
                 new UpgradeComponent<String>(_screen, _skills[i]);
         }
     }
-
-    public VisualElement GetVisualElement() { return _screen; }
-
-
-    public void ShowScreen() {
-        _screen.style.display = DisplayStyle.Flex;    
-    }
-
-    public void HideScreen() {
-        _screen.style.display = DisplayStyle.None;    
-    }
-
-
 }

@@ -1,0 +1,51 @@
+:root {
+	--primary-color: white;
+	--secondary-color: orange;
+	--highlight-color: red;
+	--border-color: white;
+	--border-width: 2px;
+	--background-color: rgba(100,100,100,0.5);
+}
+
+* {
+	color: var(--primary-color);
+}
+
+Button {
+	border-width: 0;
+}
+
+Button:hover {
+	color: var(--secondary-color);
+	background-color: var(--highlight-color);
+	transition: 0.25s all;
+}
+
+
+.screen {
+	background-color: var(--background-color);
+	height: 100%;
+	width: 100%;
+}
+
+.mainMenu {
+	align-items: center;
+}
+
+.mainMenu > .unity-label {
+	margin-top: 5%;
+	margin-bottom: 5%;
+	font-size: 28px;
+}
+
+.mainMenuButtons {
+	flex-direction: column;
+	width: 250px;
+	height: 180px;
+	font-size: 18px;
+	justify-content: space-between;
+}
+
+.HUD {
+
+}
