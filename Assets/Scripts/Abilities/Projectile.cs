@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public abstract class Projectile : MonoBehaviour
 {
-    private Transform _target;
+    [SerializeField] private float _damage;
 
-    void Update()
+    void OnCollisionEnter(Collision other)
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target.position, 10 * Time.deltaTime);
+        if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        {
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Enemy")) 
+        {
+            other.gameObject.GetComponent<Enemy>().TakeDamage(_damage);
+        }
     }
 
-    public void Init(Transform target)
-    {
-        _target = target;
-    }
+    public abstract void Init(Transform target);
 }

@@ -6,6 +6,7 @@ public class MovementController : MonoBehaviour
 {
 
     [Header("Movement")]
+    [SerializeField] private Transform _visuals;
     [SerializeField] private AnimationCurve _accelerationCurve;
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _sprintSpeed;
@@ -85,13 +86,13 @@ public class MovementController : MonoBehaviour
                 + _camera.eulerAngles.y;
 
             var currentYaw = Mathf.SmoothDampAngle(
-                transform.eulerAngles.y,
+                _visuals.eulerAngles.y,
                 _targetYaw,
                 ref _tempRotation,
                 _rotationSmoothness
             );
             
-            transform.rotation = Quaternion.Euler(0, currentYaw, 0);
+            _visuals.rotation = Quaternion.Euler(0, currentYaw, 0);
         }
 
         if (velocityXZ < targetSpeed)
