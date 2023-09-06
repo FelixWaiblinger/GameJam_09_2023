@@ -82,6 +82,8 @@ Button:hover {
 	border-color: var(--border-color);
 	border-radius: 5px;
 	padding: 5px;
+	margin-left: 60px;
+	max-width: 300px;
 }
 
 .upgradeTooltip .title {
@@ -90,10 +92,12 @@ Button:hover {
 	border-bottom-width: var(--border-width);
 	border-color: var(--border-color);
 	margin-bottom: 5px;
+	white-space: normal;
 }
 
 .upgradeTooltip .text {
 	font-size: var(--small-font-size);
+	white-space: normal;
 }
 
 .upgradeTree Button {
@@ -105,7 +109,6 @@ Button:hover {
 	border-radius: 5px;
 	margin: 10px;
 }
-
 
 .childContainer {
 	flex-direction: row;
