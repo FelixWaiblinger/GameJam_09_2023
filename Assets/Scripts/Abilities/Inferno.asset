@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f26b91357b13ec44ad5933ef1e43f68, type: 3}
-  m_Name: Fireball
+  m_Script: {fileID: 11500000, guid: 45ed39e564b067f4e97d7dc03fb58297, type: 3}
+  m_Name: Inferno
   m_EditorClassIdentifier: 
   Cooldown: 0.2
-  _projectile: {fileID: 7439318963945271223, guid: 46ef475a25a16964389259e6c5e19e85,
+  _projectile: {fileID: 2483766895794942423, guid: c61c2e9869111fc4fa122f46d26b977b,
     type: 3}
+  _projectileNumber: 20

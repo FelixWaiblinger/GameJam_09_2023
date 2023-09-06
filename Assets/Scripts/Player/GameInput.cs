@@ -92,7 +92,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""MousePos"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""b1aa38d9-8c74-4ea7-9b4f-94ac2da0304b"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",

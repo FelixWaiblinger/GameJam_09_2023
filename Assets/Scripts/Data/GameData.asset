@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   Attack: {fileID: 11400000, guid: 5fd44ae3fb1bc9949ba980c5afab4282, type: 2}
-  Primary: {fileID: 11400000, guid: 5fd44ae3fb1bc9949ba980c5afab4282, type: 2}
+  Primary: {fileID: 11400000, guid: f0f49fec3d243f040bf381257f12e920, type: 2}
   Secondary: {fileID: 11400000, guid: 5fd44ae3fb1bc9949ba980c5afab4282, type: 2}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Cooldown
+public enum Slot
 {
     Attack, Primary, Secondary, All
 }
@@ -11,24 +11,24 @@ public class AbilityController : MonoBehaviour
 {
     [SerializeField] private GameData _gameData;
     [SerializeField] private Transform _abilityOrigin;
+    [SerializeField] private Transform _target;
+    [SerializeField] private LayerMask _groundLayers, _enemyLayer;
 
+    private Vector3 _hitPoint, ignoreY = new(1, 0, 1);
     private Camera _camera;
-    private Transform _target;
-    private Ability _attackSlot;
-    private Ability _primarySlot;
-    private Ability _secondarySlot;
-    private Dictionary<Cooldown, float> _cooldownTimers = new Dictionary<Cooldown, float>()
+    private Dictionary<Slot, Ability> _slots = new Dictionary<Slot, Ability>();
+    private Dictionary<Slot, float> _cooldownTimers = new Dictionary<Slot, float>()
     {
-        {Cooldown.Attack, 0},
-        {Cooldown.Primary, 0},
-        {Cooldown.Secondary, 0}
+        {Slot.Attack, 0},
+        {Slot.Primary, 0},
+        {Slot.Secondary, 0}
     };
-    private Dictionary<Cooldown, float> _cooldownMultipliers = new Dictionary<Cooldown, float>()
+    private Dictionary<Slot, float> _cooldownMultipliers = new Dictionary<Slot, float>()
     {
-        {Cooldown.Attack, 1},
-        {Cooldown.Primary, 1},
-        {Cooldown.Secondary, 1}, 
-        {Cooldown.All, 1}
+        {Slot.Attack, 1},
+        {Slot.Primary, 1},
+        {Slot.Secondary, 1},
+        {Slot.All, 1}
     };
 
     #region SETUP
@@ -48,14 +48,14 @@ public class AbilityController : MonoBehaviour
         InputReader.primarySlotEvent -= Primary;
         InputReader.secondarySlotEvent -= Secondary;
     }
-    // Start is called before the first frame update
+    
     void Start()
     {
         _camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
-        _attackSlot = _gameData.Attack;
-        _primarySlot = _gameData.Primary;
-        _secondarySlot = _gameData.Secondary;
+        _slots[Slot.Attack] = _gameData.Attack;
+        _slots[Slot.Primary] = _gameData.Primary;
+        _slots[Slot.Secondary] = _gameData.Secondary;
     }
 
     #endregion
@@ -68,58 +68,75 @@ public class AbilityController : MonoBehaviour
     void FindTarget(Vector2 mousePos)
     {
         var ray = _camera.ScreenPointToRay(mousePos);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 100)) return;
+        if (!Physics.Raycast(ray, out RaycastHit hit, 100, _groundLayers)) return;
 
-        // TODO 
+        _hitPoint = hit.point;
+
+        _target.position = Vector3.Scale(hit.point, ignoreY) + Vector3.up * transform.position.y;
+        _abilityOrigin.rotation = Quaternion.LookRotation(_target.position - _abilityOrigin.position);
+    }
+
+    bool FindEnemy(out Transform enemy)
+    {
+        enemy = null;
+        var enemies = Physics.OverlapSphere(_hitPoint, 10, _enemyLayer, QueryTriggerInteraction.Ignore);
+
+        if (enemies.Length == 0) return false;
+        
+        var minDistance = float.MaxValue;
+        foreach (Collider c in enemies)
+        {
+            var distance = Vector3.Distance(c.transform.position, transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                enemy = c.transform;
+            }
+        }
+
+        return true;
     }
 
     #region ABILITY
 
     void Attack()
     {
-        if (!TryAddCooldown(Cooldown.Attack)) return;
+        if (!TryAddCooldown(Slot.Attack)) return;
 
-        // _attackSlot.Activate(_abilityOrigin, _target);
+        // _slots[(int)Slot.Attack].Activate(_abilityOrigin, _target);
     }
 
     void Primary()
     {
-        if (!TryAddCooldown(Cooldown.Primary)) return;
+        if (!TryAddCooldown(Slot.Primary)) return;
 
-        _primarySlot.Activate(_abilityOrigin, _target);
+        _slots[Slot.Primary].Activate(_abilityOrigin, FindEnemy(out Transform enemy) ? enemy : _target);
     }
 
     void Secondary()
     {
-        if (!TryAddCooldown(Cooldown.Secondary)) return;
+        if (!TryAddCooldown(Slot.Secondary)) return;
 
-        _secondarySlot.Activate(_abilityOrigin, _target);
+        _slots[Slot.Secondary].Activate(_abilityOrigin, _target);
     }
 
-    bool TryAddCooldown(Cooldown name)
+    bool TryAddCooldown(Slot name)
     {
         if (_cooldownTimers[name] > 0) return false;
 
-        float cd = 0;
-        switch (name)
-        {
-            case Cooldown.Attack: cd = _attackSlot.Cooldown; break;
-            case Cooldown.Primary: cd = _primarySlot.Cooldown; break;
-            case Cooldown.Secondary: cd = _secondarySlot.Cooldown; break;
-        }
-
-        _cooldownTimers[name] = cd * _cooldownMultipliers[name] * _cooldownMultipliers[Cooldown.All];
+        _cooldownTimers[name] = _slots[name].Cooldown
+                                * _cooldownMultipliers[name]
+                                * _cooldownMultipliers[Slot.All];
 
         return true;
     }
 
     void UpdateCooldowns()
     {
-        var cdList = new List<Cooldown>(_cooldownTimers.Keys);
-        foreach (Cooldown cd in cdList)
+        foreach (Slot s in _slots.Keys)
         {
-            if (_cooldownTimers[cd] < 0) continue;
-            _cooldownTimers[cd] -= Time.deltaTime;
+            if (_cooldownTimers[s] < 0) continue;
+            _cooldownTimers[s] -= Time.deltaTime;
         }
     }
 
