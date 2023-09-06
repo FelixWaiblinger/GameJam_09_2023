@@ -4,15 +4,22 @@
 	--highlight-color: red;
 	--border-color: white;
 	--border-width: 2px;
-	--background-color: rgba(100,100,100,0.5);
+	--background-color: rgba(0,0,0,0.5);
 }
 
 * {
 	color: var(--primary-color);
+	margin: 0;
+	padding: 0;
+	border-width: 0;
 }
 
 Button {
-	border-width: 0;
+	padding: 10px 20px;
+
+
+	/*Debugggg*/
+	margin-bottom: 20px;
 }
 
 Button:hover {
@@ -21,15 +28,24 @@ Button:hover {
 	transition: 0.25s all;
 }
 
+.unity-progress-bar__container {
+	max-height: none;
+	min-height: auto;
+}
 
 .screen {
 	background-color: var(--background-color);
 	height: 100%;
 	width: 100%;
+	align-items: center;
 }
 
+
+/***************************************
+---------------Main Menu ---------------
+***************************************/
+
 .mainMenu {
-	align-items: center;
 }
 
 .mainMenu > .unity-label {
@@ -46,6 +62,68 @@ Button:hover {
 	justify-content: space-between;
 }
 
+/***************************************
+--------------- Upgrade Menu ---------
+***************************************/
+
+
+.upgradeMenu {
+	background-color: #F65A16;
+}
+
+.tooltip {
+	background-color: brown;
+	border-width: var(--border-width);
+	border-color: var(--border-color);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.upgradeTree Button {
+	height: 40px;
+	width: 40px;
+	align-self: center;
+	border-width: var(--border-width);
+	border-color: var(--border-color);
+	border-radius: 5px;
+	margin: 10px;
+}
+
+
+.childContainer {
+	flex-direction: row;
+}
+
+
+/***************************************
+---------------HUD ---------------------
+***************************************/
+
 .HUD {
 
+}
+
+.expBar {
+	position: absolute;
+	bottom: 0;
+}
+
+.expBar .unity-progress-bar__container {
+	width: 300px;
+	height: 25px;
+}
+
+.hpBar {
+	position: absolute;
+	bottom: 50px;
+	left: 50px;
+}
+
+.hpBar .unity-progress-bar__container {
+	width: 200px;
+	height: 25px;
+}
+
+.hpBar .unity-progress-bar__background {
+	background-color: rgba(0,0,0,0.1);
 }

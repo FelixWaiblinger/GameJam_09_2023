@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.Device;
 using UnityEngine.UIElements;
 
-public abstract class UIScreen
+public abstract class UIScreen : MonoBehaviour
 {
-    protected VisualElement _screen = Create("screen");
+    protected VisualElement _screen;
     public VisualElement GetVisualElement() { return _screen; }
+
+    protected virtual void Awake() {
+        _screen = Create("screen");
+    }
 
     public void ShowScreen() {
         _screen.style.display = DisplayStyle.Flex;

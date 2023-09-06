@@ -1,38 +1,41 @@
-using System;
-using System.CodeDom.Compiler;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class MainUI : MonoBehaviour
 {
-
     [SerializeField] private UIDocument _UIDocument;
     [SerializeField] private StyleSheet _styleSheet;
 
-    [SerializeField] private string[] _skills;
-
     [SerializeField] private int workingOn;
+    [SerializeField] private int screenAmount;
 
-
-    private UpgradeScreen _upgradeScreen;
-    private MainMenuScreen _mainMenuScreen;
-    private HUDScreen _hudScreen;
+    [SerializeField] private MainMenuScreen _mainMenuScreen;
+    [SerializeField] private UpgradeScreen _upgradeScreen;
+    [SerializeField] private HUDScreen _hudScreen;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Generate());
+        SetVisualElements();
         ShowScreen(workingOn);
     }
 
-    private void OnValidate() {
-        if (Application.isPlaying) return;
+    private void OnEnable() {
+        InputReader.pauseEvent += DoSomething;
+    }
 
-        StartCoroutine(Generate());
-        
+    private void OnDisable() {
+        InputReader.pauseEvent -= DoSomething;
+    }
 
+    void Update() {
+        ShowScreen(workingOn);
+    }
+
+    public void DoSomething() {
+        workingOn %= screenAmount;
+        workingOn++;
     }
 
     private void ShowScreen(int workingOn) {
@@ -53,39 +56,14 @@ public class MainUI : MonoBehaviour
         }
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            ShowScreen(1);
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha2)) {
-            ShowScreen(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3)) {
-            ShowScreen(3);
-        }
-    }
-
-
-    private IEnumerator Generate() {
-            
-        yield return null;
-
+    private void SetVisualElements() {
         VisualElement root = _UIDocument.rootVisualElement;
         root.Clear();
 
         root.styleSheets.Add(_styleSheet);
 
-        _upgradeScreen = new UpgradeScreen(_skills);
         root.Add(_upgradeScreen.GetVisualElement());
-
-        _mainMenuScreen = new MainMenuScreen();
         root.Add(_mainMenuScreen.GetVisualElement());
-
-        _hudScreen = new HUDScreen();
         root.Add(_hudScreen.GetVisualElement());
-
-        ShowScreen(workingOn);
     }
-
-
 }
