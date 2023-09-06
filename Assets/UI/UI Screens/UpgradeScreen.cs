@@ -1,15 +1,11 @@
 using System;
-using System.Net;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Device;
 using UnityEngine.UIElements;
 
 public class UpgradeScreen : UIScreen {
 
     private VisualElement _tooltipContainer;
 
-    [SerializeField] private string[] _skills;
     [SerializeField] private SkillTreeSO skillTreeSO;
 
     protected override void Awake() {
@@ -38,7 +34,7 @@ public class UpgradeScreen : UIScreen {
     }
 
     private void GenerateSkillTree() {
-        SkillTreeVisual skillTree = new SkillTreeVisual(_skills, skillTreeSO);
+        SkillTreeVisual skillTree = new SkillTreeVisual(skillTreeSO);
         _screen.Add(skillTree);
     }
 
@@ -74,20 +70,16 @@ public class UpgradeScreen : UIScreen {
         //Debug.Log(arg1 + "OUT: " + vector);
         _tooltipContainer.style.display = DisplayStyle.None;
     }
-
-
 }
 
 public class SkillTreeVisual : VisualElement {
 
-    private string[] _skills;
     private SkillTreeSO _skillTreeSO;
 
     private VisualElement _container;
     
-    public SkillTreeVisual(string[] skills, SkillTreeSO skillTreeSO) {
+    public SkillTreeVisual(SkillTreeSO skillTreeSO) {
 
-        _skills = skills;
         _skillTreeSO = skillTreeSO;
 
         _container = new VisualElement();
@@ -108,12 +100,6 @@ public class SkillTreeVisual : VisualElement {
         CreateTree(visualElementRoot, root);
         
         _container.Add(visualElementRoot);
-
-        for (int i = 0; i < _skills.Length; i++) {
-            UpgradeComponent<String> upgradeComponent =
-                new UpgradeComponent<String>(_container, _skills[i]);
-        }
-
     }
 
     private void CreateTree(VisualElement parent, SkillNodeSO node) {
@@ -132,28 +118,58 @@ public class SkillTreeVisual : VisualElement {
     }
 
     private void OnGenerateVisualContent(MeshGenerationContext context) {
+        SkillNodeSO root = _skillTreeSO.GetSkillTree();
+        TraverseTree(root, root, context);
+
+
+        //Painter2D painter = context.painter2D;
+
+        //Vector2 containerPosition = context.visualElement.worldBound.position;
+
+        //Button lastElement = context.visualElement.Q<Button>(_skills[0]);
+
+        //foreach(string s in _skills) {
+        //    Button currentElement = context.visualElement.Q<Button>(s);
+
+        //    Vector2 startPoint = lastElement.worldBound.position - containerPosition;
+        //    startPoint.y += lastElement.worldBound.height;
+        //    startPoint.x += lastElement.worldBound.width / 2;
+
+        //    Vector2 endPoint = currentElement.worldBound.position - containerPosition;
+        //    endPoint.y += 0;
+        //    endPoint.x += currentElement.worldBound.width / 2;
+
+        //    DrawLine(painter, startPoint, endPoint);
+
+        //    lastElement = currentElement;
+        //}
+    }
+
+    public void TraverseTree(SkillNodeSO parent, SkillNodeSO node, MeshGenerationContext context) {
         Painter2D painter = context.painter2D;
 
         Vector2 containerPosition = context.visualElement.worldBound.position;
 
-        Button lastElement = context.visualElement.Q<Button>(_skills[0]);
+        Button lastElement = _container.Q<Button>(parent.Name);
 
-        foreach(string s in _skills) {
-            Button currentElement = context.visualElement.Q<Button>(s);
+        Button currentElement = _container.Q<Button>(node.Name);
 
-            Vector2 startPoint = lastElement.worldBound.position - containerPosition;
-            startPoint.y += lastElement.worldBound.height;
-            startPoint.x += lastElement.worldBound.width / 2;
+        Vector2 startPoint = lastElement.worldBound.position - containerPosition;
+        startPoint.y += lastElement.worldBound.height;
+        startPoint.x += lastElement.worldBound.width / 2;
 
-            Vector2 endPoint = currentElement.worldBound.position - containerPosition;
-            endPoint.y += 0;
-            endPoint.x += currentElement.worldBound.width / 2;
+        Vector2 endPoint = currentElement.worldBound.position - containerPosition;
+        endPoint.y += 0;
+        endPoint.x += currentElement.worldBound.width / 2;
 
-            DrawLine(painter, startPoint, endPoint);
+        DrawLine(painter, startPoint, endPoint);
 
-            lastElement = currentElement;
+        foreach (SkillNodeSO child in node.Children) {
+            TraverseTree(node, child, context);
         }
     }
+
+
 
     private void DrawLine(Painter2D painter, Vector2 from, Vector2 to) {
         painter.BeginPath();
