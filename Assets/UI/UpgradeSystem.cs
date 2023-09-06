@@ -15,14 +15,6 @@ public class UpgradeSystem : MonoBehaviour
         _tree = new UpgradeTree(skillTreeSO.GetSkillTree());
     }
 
-    void OnEnable() {
-        UpgradeComponent<string>.OnClicked += DoSometing;
-    }
-
-    void OnDisable() {
-        UpgradeComponent<string>.OnClicked -= DoSometing;
-    }
-
     private void DoSometing(string @string) {
         Debug.Log("Oh you want to upgrade: "+ @string);
     }

@@ -14,15 +14,15 @@ public class UpgradeScreenController : MonoBehaviour
     }
 
     void OnEnable() {
-        UpgradeComponent<String>.OnClicked += OnUpgradeClicked;    
+        UpgradeComponent<SkillNodeSO>.OnClicked += OnUpgradeClicked;    
     }
 
     private void OnDisable() {
-        UpgradeComponent<String>.OnClicked -= OnUpgradeClicked;    
+        UpgradeComponent<SkillNodeSO>.OnClicked -= OnUpgradeClicked;    
     }
 
-    private void OnUpgradeClicked(string @string) {
-        Debug.Log("Oh you want to upgrade: " + @string);
+    private void OnUpgradeClicked(SkillNodeSO so) {
+        Debug.Log("Oh you want to upgrade: " + so.Name);
     }
 
 }

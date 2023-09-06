@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UpgradeComponent<T> where T : class {
+public class UpgradeComponent<T> where T : SkillNodeSO {
 
     public static event Action<T> OnClicked;
     public static event Action<T, Vector2> OnMouseOver;
@@ -19,8 +19,8 @@ public class UpgradeComponent<T> where T : class {
 
     private void AddButtonToParent(T value) {
         Button button = new Button();
-        button.name = value.ToString();
-        button.text = value.ToString();
+        button.name = value.Identifier;
+        button.text = value.Name;
         button.userData = value;
         button.RegisterCallback<MouseOverEvent>(OnMouseEntered);
         button.RegisterCallback<MouseOutEvent>(OnMouseLeaved);

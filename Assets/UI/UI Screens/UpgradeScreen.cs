@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,13 +17,13 @@ public class UpgradeScreen : UIScreen {
     }
 
     private void OnEnable() {
-        UpgradeComponent<string>.OnMouseOver += ShowTooltip;
-        UpgradeComponent<string>.OnMouseOut += HideTooltip;
+        UpgradeComponent<SkillNodeSO>.OnMouseOver += ShowTooltip;
+        UpgradeComponent<SkillNodeSO>.OnMouseOut += HideTooltip;
     }
 
     private void OnDisable() {
-        UpgradeComponent<string>.OnMouseOver -= ShowTooltip;
-        UpgradeComponent<string>.OnMouseOut -= HideTooltip;
+        UpgradeComponent<SkillNodeSO>.OnMouseOver -= ShowTooltip;
+        UpgradeComponent<SkillNodeSO>.OnMouseOut -= HideTooltip;
            
     }
 
@@ -40,23 +41,19 @@ public class UpgradeScreen : UIScreen {
 
     private void AddTooltipContainer() {
         _tooltipContainer = Create<VisualElement>("tooltipContainer");
-        Label tooltip = Create<Label>("tooltip");
-        _tooltipContainer.Add(tooltip);
-        _tooltipContainer.style.display = DisplayStyle.None;
-
         _screen.Add(_tooltipContainer);
     }
 
-    private void ShowTooltip(string gameData, Vector2 position) {
+    private void ShowTooltip(SkillNodeSO gameData, Vector2 position) {
         //Debug.Log(gameData + ": " + position);
+        _tooltipContainer.Clear();
 
         Vector2 tooltipPosition = position - _screen.worldBound.position;
-
-        Label tooltip = _tooltipContainer.Q<Label>();
+        UpgradeTooltip tooltip = new UpgradeTooltip(gameData.Name, gameData.Description);
         tooltip.style.marginLeft = 70;
-
-        tooltip.text = "This will be filled... eventually :" + gameData;
         tooltip.pickingMode = PickingMode.Ignore;
+
+        _tooltipContainer.Add(tooltip);
 
         _tooltipContainer.pickingMode = PickingMode.Ignore;
         _tooltipContainer.style.left = tooltipPosition.x;
@@ -66,11 +63,42 @@ public class UpgradeScreen : UIScreen {
         _tooltipContainer.BringToFront();
     }
 
-    private void HideTooltip(string arg1, Vector2 vector) {
+    private void HideTooltip(SkillNodeSO arg1, Vector2 vector) {
         //Debug.Log(arg1 + "OUT: " + vector);
         _tooltipContainer.style.display = DisplayStyle.None;
     }
 }
+
+public class UpgradeTooltip : VisualElement {
+
+    public UpgradeTooltip(string name, string description) {
+        this.AddToClassList("upgradeTooltip");
+
+        Label _name = this.Create<Label>("title");
+        _name.text = name;
+        this.Add(_name);
+
+        Label _description = this.Create<Label>("text");
+        _description.text = description;
+        this.Add(_description);
+
+    }
+
+}
+
+public static class UIElementsExtensions {
+
+    public static T Create<T>(this VisualElement ele, params string[] classNames) where T : VisualElement, new() {
+        T element = new T();
+        foreach (string className in classNames) {
+            element.AddToClassList(className);
+        }
+
+        return element;
+    }
+}
+
+
 
 public class SkillTreeVisual : VisualElement {
 
@@ -107,7 +135,7 @@ public class SkillTreeVisual : VisualElement {
         visualNode.AddToClassList("visualNode");
         parent.Add(visualNode);
 
-        new UpgradeComponent<String>(visualNode, node.Name);
+        new UpgradeComponent<SkillNodeSO>(visualNode, node);
         VisualElement childContainer = new VisualElement();
         childContainer.AddToClassList("childContainer");
         visualNode.Add(childContainer);
@@ -119,40 +147,17 @@ public class SkillTreeVisual : VisualElement {
 
     private void OnGenerateVisualContent(MeshGenerationContext context) {
         SkillNodeSO root = _skillTreeSO.GetSkillTree();
-        TraverseTree(root, root, context);
-
-
-        //Painter2D painter = context.painter2D;
-
-        //Vector2 containerPosition = context.visualElement.worldBound.position;
-
-        //Button lastElement = context.visualElement.Q<Button>(_skills[0]);
-
-        //foreach(string s in _skills) {
-        //    Button currentElement = context.visualElement.Q<Button>(s);
-
-        //    Vector2 startPoint = lastElement.worldBound.position - containerPosition;
-        //    startPoint.y += lastElement.worldBound.height;
-        //    startPoint.x += lastElement.worldBound.width / 2;
-
-        //    Vector2 endPoint = currentElement.worldBound.position - containerPosition;
-        //    endPoint.y += 0;
-        //    endPoint.x += currentElement.worldBound.width / 2;
-
-        //    DrawLine(painter, startPoint, endPoint);
-
-        //    lastElement = currentElement;
-        //}
+        PaintTreeLines(root, root, context);
     }
 
-    public void TraverseTree(SkillNodeSO parent, SkillNodeSO node, MeshGenerationContext context) {
+    public void PaintTreeLines(SkillNodeSO parent, SkillNodeSO node, MeshGenerationContext context) {
         Painter2D painter = context.painter2D;
 
         Vector2 containerPosition = context.visualElement.worldBound.position;
 
-        Button lastElement = _container.Q<Button>(parent.Name);
+        Button lastElement = _container.Q<Button>(parent.Identifier);
 
-        Button currentElement = _container.Q<Button>(node.Name);
+        Button currentElement = _container.Q<Button>(node.Identifier);
 
         Vector2 startPoint = lastElement.worldBound.position - containerPosition;
         startPoint.y += lastElement.worldBound.height;
@@ -165,7 +170,7 @@ public class SkillTreeVisual : VisualElement {
         DrawLine(painter, startPoint, endPoint);
 
         foreach (SkillNodeSO child in node.Children) {
-            TraverseTree(node, child, context);
+            PaintTreeLines(node, child, context);
         }
     }
 

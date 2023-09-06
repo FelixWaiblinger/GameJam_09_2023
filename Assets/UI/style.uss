@@ -5,6 +5,10 @@
 	--border-color: white;
 	--border-width: 2px;
 	--background-color: rgba(0,0,0,0.5);
+
+	--small-font-size: 14px;
+	--normal-font-size: 18px;
+	--big-font-size: 24px;
 }
 
 * {
@@ -12,6 +16,7 @@
 	margin: 0;
 	padding: 0;
 	border-width: 0;
+
 }
 
 Button {
@@ -71,12 +76,24 @@ Button:hover {
 	background-color: #F65A16;
 }
 
-.tooltip {
+.upgradeTooltip {
 	background-color: brown;
 	border-width: var(--border-width);
 	border-color: var(--border-color);
 	border-radius: 5px;
 	padding: 5px;
+}
+
+.upgradeTooltip .title {
+	font-size: var(--normal-font-size);
+	-unity-font-style: bold;
+	border-bottom-width: var(--border-width);
+	border-color: var(--border-color);
+	margin-bottom: 5px;
+}
+
+.upgradeTooltip .text {
+	font-size: var(--small-font-size);
 }
 
 .upgradeTree Button {
