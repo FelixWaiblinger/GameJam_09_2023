@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Fireball", menuName = "Ability/Fireball")]
 public class Fireball : Ability
 {
     [SerializeField] private Projectile _projectile;

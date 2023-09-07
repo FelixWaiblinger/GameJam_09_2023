@@ -2,19 +2,13 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamagable
 {
-    [Tooltip("Starting HP of this enemy")]
-    [SerializeField] private int _maxHealth;
-    [Tooltip("Amount of damage to apply with each attack")]
-    [SerializeField] private int _attackDamage;
-    [Tooltip("Attacks per second")]
+    [SerializeField] private float _maxHealth;
+    [SerializeField] private float _attackDamage;
     [SerializeField] private float _attackRate;
-    [Tooltip("Maximum range to trigger an attack")]
     [SerializeField] private float _attackRange;
-    [Tooltip("Travel speed of this enemy")]
     [SerializeField] private float _moveSpeed;
 
-    private int _currentHealth;
-    private float _attackCooldown;
+    private float _currentHealth, _attackCooldown;
     private Transform _playerTarget;
 
     void Start()
@@ -68,7 +62,7 @@ public class Enemy : MonoBehaviour, IDamagable
         );
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         _currentHealth -= amount;
 
