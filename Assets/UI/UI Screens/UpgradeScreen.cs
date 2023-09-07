@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,8 +16,14 @@ public class UpgradeScreen : UIScreen {
     }
 
     private void OnEnable() {
+        UpgradeScreenController.OnUpgradeLearned += UpdateUpgradeElement;
         UpgradeComponent<SkillNodeSO>.OnMouseOver += ShowTooltip;
         UpgradeComponent<SkillNodeSO>.OnMouseOut += HideTooltip;
+    }
+
+    private void UpdateUpgradeElement(string identifier) {
+        Button btn = _screen.Q<Button>(identifier);
+        btn.AddToClassList("learned");
     }
 
     private void OnDisable() {

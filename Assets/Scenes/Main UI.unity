@@ -185,10 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc26098dca3247a41ba79cadbc91701f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skills:
-  - Fireball
-  - Firenova
-  - Fire Ring
   skillTreeSO: {fileID: 11400000, guid: bea003c9a15728342a7ff360a92bcead, type: 2}
 --- !u!4 &91950508
 Transform:
@@ -486,6 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3020214c7bb6cf24a9fbe4cefceffb54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 2800000, guid: d01d1653f871af6418f84e2c5a55ca55, type: 3}
 --- !u!4 &1569247513
 Transform:
   m_ObjectHideFlags: 0
@@ -750,7 +747,7 @@ MonoBehaviour:
   _UIDocument: {fileID: 1790027989}
   _styleSheet: {fileID: 7433441132597879392, guid: 214971ed4eab50a458149168e03372de,
     type: 3}
-  workingOn: 2
+  workingOn: 3
   screenAmount: 3
   _mainMenuScreen: {fileID: 1905381177}
   _upgradeScreen: {fileID: 91950507}

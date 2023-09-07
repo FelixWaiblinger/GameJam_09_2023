@@ -9,6 +9,7 @@ public class SkillNodeSO : ScriptableObject {
     [SerializeField] public string Identifier;
     [SerializeField] public string Name;
     [SerializeField] public string Description;
+    [SerializeField] public Texture image;
     [SerializeField] public List<SkillNodeSO> Children;
     [SerializeField] public int Effect;
 

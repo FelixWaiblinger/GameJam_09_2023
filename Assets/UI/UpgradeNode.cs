@@ -4,31 +4,35 @@ using UnityEngine;
 
 public class UpgradeNode
 {
-    private UpgradeNode _preRequirement;
+    public UpgradeNode PreRequirement { get; private set; }
+
     private List<UpgradeNode> _children = new List<UpgradeNode>();
 
-    private string _name;
-    private string _description;
-    private string _identifier;
-    private int _effect;
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+    public string Identifier { get; private set; }
+    public int Effect { get; private set; }
+
+    public bool IsSkilled = false;
 
     public UpgradeNode(UpgradeNode preRequirement, List<UpgradeNode> children, string name, string description, string identifier, int effect) {
-        _preRequirement = preRequirement;
+        PreRequirement = preRequirement;
         if(children != null) {
             _children.AddRange(children);
         }
-        _name = name;
-        _description = description;
-        _identifier = identifier;
-        _effect = effect;
+        Name = name;
+        Description = description;
+        Identifier = identifier;
+        Effect = effect;
     }
 
     public void AddChild(UpgradeNode child) {
         _children.Add(child);
     }
 
+
     public string GetName() {
-        return _name;
+        return Name;
     }
 
 }

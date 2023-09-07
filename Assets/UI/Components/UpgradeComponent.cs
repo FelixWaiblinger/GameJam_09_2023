@@ -20,11 +20,16 @@ public class UpgradeComponent<T> where T : SkillNodeSO {
     private void AddButtonToParent(T value) {
         Button button = new Button();
         button.name = value.Identifier;
-        button.text = value.Name;
         button.userData = value;
         button.RegisterCallback<MouseOverEvent>(OnMouseEntered);
         button.RegisterCallback<MouseOutEvent>(OnMouseLeaved);
         button.RegisterCallback<ClickEvent>(OnButtonClick);
+
+        Image img = new Image();
+        img.image = value.image;
+        img.BringToFront();
+
+        button.Add(img);
 
         _parent.Add(button);    
     }

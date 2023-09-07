@@ -8,10 +8,16 @@ public class UpgradeTree
     Dictionary<string, UpgradeNode> keyValuePairs = new Dictionary<string, UpgradeNode>();
 
     public UpgradeTree(SkillNodeSO skillNodeSO) {
-
-        // Fill Dictionary
         FillDictonary(skillNodeSO, null);
     }
+
+    public UpgradeNode GetUpgrade(string identifier) {
+        if(keyValuePairs.TryGetValue(identifier, out UpgradeNode node)) {
+            return node;
+        } else { return null; }
+    }
+
+
 
     private void FillDictonary(SkillNodeSO node, UpgradeNode parent) {
 

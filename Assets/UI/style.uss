@@ -19,19 +19,15 @@
 
 }
 
-Button {
-	padding: 10px 20px;
 
-
-	/*Debugggg*/
-	margin-bottom: 20px;
-}
-
+/*
 Button:hover {
 	color: var(--secondary-color);
 	background-color: var(--highlight-color);
 	transition: 0.25s all;
 }
+
+*/
 
 .unity-progress-bar__container {
 	max-height: none;
@@ -110,6 +106,16 @@ Button:hover {
 	margin: 10px;
 }
 
+.upgradeTree Button.learned {
+	border-color: green;
+}
+
+.upgradeTree Button:hover {
+	scale: 1.1;
+	transition: 0.05s all;
+}
+
+
 .childContainer {
 	flex-direction: row;
 }
@@ -121,6 +127,11 @@ Button:hover {
 
 .HUD {
 
+}
+
+.pic {
+	width: 80px;
+	height: 80px;
 }
 
 .expBar {

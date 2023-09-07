@@ -15,5 +15,6 @@ MonoBehaviour:
   Identifier: 300_2
   Name: The other Ultimatum!
   Description: This is a description
+  image: {fileID: 2800000, guid: d01d1653f871af6418f84e2c5a55ca55, type: 3}
   Children: []
   Effect: 50

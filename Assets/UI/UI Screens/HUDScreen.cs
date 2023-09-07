@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class HUDScreen : UIScreen
 {
+    public Texture txt;
+
     protected override void Awake() {
         base.Awake();
         _screen.AddToClassList("hud");
@@ -33,6 +35,23 @@ public class HUDScreen : UIScreen
         hpBar.highValue = 1;
         hpBar.value = 0.5f;
         _screen.Add(hpBar);
+
+
+
+        Image image = Create<Image>("pic");
+        image.image = txt;
+        image.scaleMode = ScaleMode.ScaleToFit;
+        _screen.Add(image);
+
+        Image image1 = Create<Image>("pic");
+        image1.image = txt;
+        image1.scaleMode = ScaleMode.StretchToFill;
+        _screen.Add(image1);
+
+        Image image2 = Create<Image>("pic");
+        image2.image = txt;
+        image2.scaleMode = ScaleMode.ScaleAndCrop;
+        _screen.Add(image2);
 
 
         // Skills Bar
