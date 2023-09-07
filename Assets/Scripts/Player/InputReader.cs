@@ -87,6 +87,7 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 	// start move camera (right mouse hold)
 	public void OnZoom(InputAction.CallbackContext context)
 	{
+		if (context.phase == InputActionPhase.Performed)
 		zoomEvent?.Invoke(context.ReadValue<float>());
 	}
 
