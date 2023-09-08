@@ -1,15 +1,8 @@
 using UnityEngine;
 using Cinemachine;
 
-// danger zone
-// using System.Runtime.InteropServices;
-
 public class CameraController : MonoBehaviour
 {
-    // danger zone
-    // [DllImport("user32.dll")]
-    // static extern bool SetCursorPos(int X, int Y);
-
     [SerializeField] private Transform _focusPoint;
 
     [Header("Fine-tuning")]
@@ -51,6 +44,7 @@ public class CameraController : MonoBehaviour
 
         _targetDistance = _cameraFrame.m_FollowOffset;
         _targetYaw = _focusPoint.rotation.eulerAngles.y;
+        _targetPitch = _focusPoint.rotation.eulerAngles.x;
     }
 
     #endregion
