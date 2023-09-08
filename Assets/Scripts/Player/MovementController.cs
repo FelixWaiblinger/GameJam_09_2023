@@ -5,7 +5,6 @@ public class MovementController : MonoBehaviour
     [Header("Control")]
     [SerializeField] private BoolEventChannel _combatEvent;
     [SerializeField] private FloatEventChannel _rootEvent;
-    [SerializeField] private bool _inCombat = false;
     private float _combatTimer, _rootTimer;
 
     [Header("Movement")]
@@ -15,8 +14,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float _sprintSpeed;
     private Rigidbody _rigidBody;
     private Transform _camera;
-    private Vector3 _mouseInWorld;
-    private Vector3 _moveDirection, ignoreY = new(1, 0, 1);
+    private Vector2 _mousePosition;
+    private Vector3 _mouseInWorld, _moveDirection, ignoreY = new(1, 0, 1);
     private float _accelerationTime = 0, _targetYaw = 0, _rotationSmoothness = 0.12f;
     private float _tempRotation;
     private bool _isSprinting = false;
@@ -42,12 +41,10 @@ public class MovementController : MonoBehaviour
         InputReader.jumpEvent += Jump;
         InputReader.dashEvent += Dash;
         InputReader.moveEvent += (direction) => _moveDirection = new(direction.x, 0, direction.y);
-        InputReader.sprintEvent += (active) => _isSprinting = !_inCombat && active;
-        InputReader.mousePosEvent += (position) => {
-            if (CameraTools.GetScreenToWorld(position, out Vector3 worldPos)) _mouseInWorld = worldPos;
-        };
+        InputReader.sprintEvent += (active) => _isSprinting = _combatTimer <= 0 && active;
+        InputReader.mousePosEvent += (position) => _mousePosition = position;
 
-        _combatEvent.OnBoolEventRaised += (active) => _inCombat = active;
+        _combatEvent.OnBoolEventRaised += (active) => _combatTimer = active ? 10 : 0;
         _rootEvent.OnFloatEventRaised += (duration) => _rootTimer = duration;
     }
 
@@ -68,24 +65,27 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateSmoothFalling();
+        SmoothFalling();
 
-        UpdateGrounded();
+        GroundCheck();
 
         if (_rootTimer > 0) return;
 
-        if (_inCombat) UpdateCombatMove();
-        else UpdateExploreMove();
+        if (_combatTimer > 0) CombatMove();
+        else ExploreMove();
     }
 
     void Update()
     {        
         UpdateTimers();
+
+        if (CameraTools.GetScreenToWorld(_mousePosition, out Vector3 worldPos))
+            _mouseInWorld = worldPos;
     }
 
     #region MOVEMENT
 
-    void UpdateExploreMove()
+    void ExploreMove()
     {
         var targetSpeed = _dashDurationTimer > 0 ? _dashSpeed : _isSprinting ? _sprintSpeed : _walkSpeed;
         var velocityXZ = Vector3.Scale(_rigidBody.velocity, ignoreY).magnitude;
@@ -122,46 +122,41 @@ public class MovementController : MonoBehaviour
         _rigidBody.AddForce(targetDirection * velocityXZ, ForceMode.VelocityChange);
     }
 
-    void UpdateCombatMove()
+    void CombatMove()
     {
-        var targetSpeed = _dashDurationTimer > 0 ? _dashSpeed : _walkSpeed;
-        var velocityXZ = Vector3.Scale(_rigidBody.velocity, ignoreY).magnitude;
-        var direction = (_mouseInWorld - transform.position).normalized;
+        CombatRotation();
 
-        // fix stopping dash
         if (_moveDirection == Vector3.zero)
         {
             _accelerationTime = 0;
-            targetSpeed = 0;
-        }
-        else
-        {
-            _targetYaw =
-                Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg
-                + _camera.eulerAngles.y;
-
-            var currentYaw = Mathf.SmoothDampAngle(
-                _visuals.eulerAngles.y,
-                _targetYaw,
-                ref _tempRotation,
-                _rotationSmoothness
-            );
-            
-            _visuals.rotation = Quaternion.Euler(0, currentYaw, 0);
+            return;
         }
 
-        if (velocityXZ < targetSpeed)
-        {
-            velocityXZ = targetSpeed * _accelerationCurve.Evaluate(_accelerationTime);
-            _accelerationTime += Time.deltaTime;
-        }
-        else velocityXZ = targetSpeed;
+        var targetSpeed = _dashDurationTimer > 0 ? _dashSpeed : _walkSpeed;
+        var velocityXZ = targetSpeed * _accelerationCurve.Evaluate(_accelerationTime);
+        var targetDirection = Vector3.Scale(_camera.rotation * _moveDirection, ignoreY);
 
-        var targetDirection = Quaternion.Euler(0, _targetYaw, 0) * Vector3.forward;
         _rigidBody.AddForce(targetDirection * velocityXZ, ForceMode.VelocityChange);
+        _accelerationTime += Time.deltaTime;
     }
 
-    void UpdateSmoothFalling()
+    void CombatRotation()
+    {
+        var direction = (_mouseInWorld - transform.position).normalized;
+
+        _targetYaw = Quaternion.LookRotation(direction).eulerAngles.y;
+
+        var currentYaw = Mathf.SmoothDampAngle(
+            _visuals.eulerAngles.y,
+            _targetYaw,
+            ref _tempRotation,
+            _rotationSmoothness
+        );
+            
+        _visuals.rotation = Quaternion.Euler(0, currentYaw, 0);
+    }
+
+    void SmoothFalling()
     {
         if (_rigidBody.velocity.y >= 0) return;
 
@@ -178,7 +173,7 @@ public class MovementController : MonoBehaviour
         _isGrounded = false;
     }
 
-    void UpdateGrounded()
+    void GroundCheck()
     {
         _isGrounded = Physics.CheckSphere(
             transform.position + Vector3.down * _groundOffset,
@@ -190,7 +185,7 @@ public class MovementController : MonoBehaviour
 
     void Dash()
     {
-        if (!_inCombat) return;
+        if (_combatTimer <= 0) return;
 
         if (_dashCooldownTimer > 0 || _dashDurationTimer > 0) return;
 

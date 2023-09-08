@@ -1,0 +1,16 @@
+{
+    "name": "Scripts.Projectile",
+    "rootNamespace": "",
+    "references": [
+        "GUID:71416e9dc9fb64a43b95a116e3ecd9ec"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
