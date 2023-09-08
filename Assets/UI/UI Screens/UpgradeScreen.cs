@@ -71,5 +71,7 @@ public class UpgradeScreen : UIScreen {
         //Debug.Log(arg1 + "OUT: " + vector);
         _tooltipContainer.style.display = DisplayStyle.None;
     }
+
+
 }
 

@@ -1,60 +1,187 @@
 using System;
-using System.CodeDom.Compiler;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class HUDScreen : UIScreen
 {
-    public Texture txt;
+    [SerializeField] private Texture texture;
+    [SerializeField] private Sprite backgroundSprite;
+
+
+    [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject HealthBar;
+    [SerializeField] private GameObject ExpBar;
+
+    ProgressBar expBar;
+    ProgressBar hpBar;
+
+    SkillBar skillbar;
+
 
     protected override void Awake() {
         base.Awake();
         _screen.AddToClassList("hud");
-        Generate();
+        GenerateUI();
     }
 
-    private void Generate() {
+
+    private void OnEnable() {
+        HUDScreenController.OnExpChanged += UpdateExpBar;
+        HUDScreenController.OnHealthChanged += UpdateHpBar;
+        HUDScreenController.OnCooldownChanged += UpdateCooldown;
+        HUDScreenController.OnSkillsChanged += UpdateSkills;
+    }
+
+
+    private void OnDisable() {
+        HUDScreenController.OnExpChanged -= UpdateExpBar;
+        HUDScreenController.OnHealthChanged -= UpdateHpBar;
+        HUDScreenController.OnCooldownChanged -= UpdateCooldown;
+        HUDScreenController.OnSkillsChanged -= UpdateSkills;
+    }
+
+    private void UpdateExpBar(float value) {
+        if(ExpBar.TryGetComponent(out UnityEngine.UI.Image imageComponent)) {
+            imageComponent.fillAmount = value;
+        }
+    }
+
+    private void UpdateHpBar(float value) {
+        if (HealthBar.TryGetComponent(out UnityEngine.UI.Image imageComponent)) {
+            imageComponent.fillAmount = value;
+        }
+    }
+
+    private void UpdateCooldown(SkillInfo info) {
+        float progress = info.CurrentCoolDown / info.MaxCooldown;
+        UISkill skill = skillbar.Q<UISkill>(info.Name);
+        skill.UpdateCooldown(progress);
+    }
+    private void UpdateSkills(SkillInfo[] infos) {
+        skillbar = new SkillBar(infos, this.backgroundSprite);
+    }
+
+    private void GenerateUI() {
 
         Label label = Create<Label>();
         label.text = "This is ingame!";
         _screen.Add(label);
 
-        // Exp Bar
-        ProgressBar expBar = Create<ProgressBar>("expBar");
-        expBar.lowValue = 0;
-        expBar.highValue = 1;
-        expBar.value = 0.5f;
-        _screen.Add(expBar);
+        // Skill Bar
+        SkillInfo info = new SkillInfo();
+        info.UIIcon = texture;
+        info.Name = "Fireball";
 
-        // HP Bar
-        ProgressBar hpBar = Create<ProgressBar>("hpBar");
-        hpBar.lowValue = 0;
-        hpBar.highValue = 1;
-        hpBar.value = 0.5f;
-        _screen.Add(hpBar);
+        // Skill Bar
+        SkillInfo info2 = new SkillInfo();
+        info2.UIIcon = texture;
+        info2.Name = "Firewall";
 
-
-
-        Image image = Create<Image>("pic");
-        image.image = txt;
-        image.scaleMode = ScaleMode.ScaleToFit;
-        _screen.Add(image);
-
-        Image image1 = Create<Image>("pic");
-        image1.image = txt;
-        image1.scaleMode = ScaleMode.StretchToFill;
-        _screen.Add(image1);
-
-        Image image2 = Create<Image>("pic");
-        image2.image = txt;
-        image2.scaleMode = ScaleMode.ScaleAndCrop;
-        _screen.Add(image2);
-
-
-        // Skills Bar
+        UpdateSkills(new SkillInfo[] { info, info2 });
+        _screen.Add(skillbar);
 
     }
+
+    public override void ShowScreen() {
+        base.ShowScreen();
+        canvas.SetActive(true);
+
+    }
+
+    public override void HideScreen() {
+        base.HideScreen();
+        canvas.SetActive(false);
+    }
+}
+
+
+public class SkillBar : VisualElement {
+
+    public SkillBar(SkillInfo[] skills, Sprite bg) {
+        AddToClassList("skillBar");
+        this.style.backgroundImage = new StyleBackground(bg);
+
+        foreach (SkillInfo skill in skills) {
+            UISkill uiSkill = new UISkill(skill.UIIcon, skill.Name);
+            Add(uiSkill);
+        }
+    }
+}
+
+
+public class UISkill : VisualElement{
+
+    CircleCooldown circleCoolDown;
+
+    public UISkill(Texture icon, string name) {
+        this.AddToClassList("skill");
+
+        this.name = name;
+
+        Image image = new Image();
+        image.style.position = Position.Absolute;
+        image.image = icon;
+
+        Add(image);
+
+        circleCoolDown = new CircleCooldown();
+        image.style.position = Position.Absolute;
+        
+        circleCoolDown.Radius = 40;
+        circleCoolDown.style.rotate = new StyleRotate(new Rotate(-90));
+
+        Add(circleCoolDown);
+        circleCoolDown.BringToFront();
+
+    }
+
+    // value is percent remaining
+    public void UpdateCooldown(float value) {
+        circleCoolDown.UpdateAngle(value * 360);
+    }
+}
+
+public class CircleCooldown: VisualElement {
+
+    private float angle = 0;
+ 
+    public float Radius { get; set; }
+
+    public CircleCooldown() {
+        this.generateVisualContent += GenerateCircle;
+    }
+
+    private void GenerateCircle(MeshGenerationContext context) {
+        if (angle <= 0) return;
+
+        Painter2D painter = context.painter2D;
+        painter.fillColor = new Color(100, 100, 100, 0.5f);
+        painter.BeginPath();
+        painter.Arc(new Vector2(0, 0), Radius*2, 0, 360 - Mathf.Min(angle, 359), ArcDirection.CounterClockwise);
+        if (angle < 360) {
+            painter.LineTo(new Vector2(0, 0));
+        }
+        painter.Fill();
+
+        //painter.LineTo(new Vector2(Radius*2, 0));
+
+        //painter.MoveTo(new Vector2(50, 50));
+        //painter.LineTo(new Vector2(-50, 50));
+        //painter.LineTo(new Vector2(-50, -50));
+        //painter.LineTo(new Vector2(50, -50));
+        //painter.LineTo(new Vector2(50, 50));
+        //painter.ClosePath();
+        //painter.fillColor = Color.red;
+        //painter.Fill(FillRule.OddEven);
+    }
+
+    public void UpdateAngle(float angle) {
+        this.angle = angle;
+        this.MarkDirtyRepaint();
+    }
+
+
 }

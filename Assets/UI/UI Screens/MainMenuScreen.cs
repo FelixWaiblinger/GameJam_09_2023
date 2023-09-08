@@ -18,8 +18,6 @@ public class MainMenuScreen : UIScreen
 
     private void Generate() {
         _screen.AddToClassList("mainMenu");
-        _screen.Add(new Label("Welcome to our game!"));
-
         AddMenuButtons(); 
     }
 

@@ -13,11 +13,11 @@ public abstract class UIScreen : MonoBehaviour
         _screen = Create("screen");
     }
 
-    public void ShowScreen() {
+    public virtual void ShowScreen() {
         _screen.style.display = DisplayStyle.Flex;
     }
 
-    public void HideScreen() {
+    public virtual void HideScreen() {
         _screen.style.display = DisplayStyle.None;
     }
 

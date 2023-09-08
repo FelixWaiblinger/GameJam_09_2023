@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.UIElements;
 
 public class MainUI : MonoBehaviour
@@ -7,8 +9,7 @@ public class MainUI : MonoBehaviour
     [SerializeField] private UIDocument _UIDocument;
     [SerializeField] private StyleSheet _styleSheet;
 
-    [SerializeField] private int workingOn;
-    [SerializeField] private int screenAmount;
+    [SerializeField] private UIScreens currentScreen;
 
     [SerializeField] private MainMenuScreen _mainMenuScreen;
     [SerializeField] private UpgradeScreen _upgradeScreen;
@@ -18,42 +19,58 @@ public class MainUI : MonoBehaviour
     void Start()
     {
         SetVisualElements();
-        ShowScreen(workingOn);
+        ShowScreen(currentScreen);
     }
 
     private void OnEnable() {
         InputReader.pauseEvent += DoSomething;
+        MainMenuController.OnRunStarted += ShowHUD;
+    }
+
+    private void ShowHUD() {
+        ShowScreen(UIScreens.HUD);
     }
 
     private void OnDisable() {
         InputReader.pauseEvent -= DoSomething;
+        MainMenuController.OnRunStarted -= ShowHUD;
     }
 
-    void Update() {
-        ShowScreen(workingOn);
+    private UIScreens GetNextMode(UIScreens current) {
+        Array modes = Enum.GetValues(current.GetType());
+
+        int index = Array.IndexOf(modes, current);
+        index = (index + 1) % modes.Length;
+        return (UIScreens)modes.GetValue(index);
     }
 
     public void DoSomething() {
-        workingOn %= screenAmount;
-        workingOn++;
+        ShowScreen(GetNextMode(currentScreen));
     }
 
-    private void ShowScreen(int workingOn) {
-        if (workingOn == 1) {
-            _mainMenuScreen.ShowScreen();
-            _upgradeScreen.HideScreen();
-            _hudScreen.HideScreen();
+    private void ShowScreen(UIScreens uiScreen) {
+        HideAll();
+        currentScreen = uiScreen;
+
+        switch (uiScreen) {
+            case UIScreens.MainMenu:
+                _mainMenuScreen.ShowScreen();
+                break;
+            case UIScreens.UpgradeMenu:
+                _upgradeScreen.ShowScreen();
+                break;
+            case UIScreens.HUD:
+                _hudScreen.ShowScreen();
+                break;
+            default:
+                break; throw new NotImplementedException();
         }
-        if (workingOn == 2) {
-            _mainMenuScreen.HideScreen();
-            _upgradeScreen.ShowScreen();
-            _hudScreen.HideScreen();
-        }
-        if (workingOn == 3) {
-            _mainMenuScreen.HideScreen();
-            _upgradeScreen.HideScreen();
-            _hudScreen.ShowScreen();
-        }
+    }
+
+    private void HideAll() {
+        _mainMenuScreen.HideScreen();
+        _upgradeScreen.HideScreen();
+        _hudScreen.HideScreen();
     }
 
     private void SetVisualElements() {
@@ -66,4 +83,10 @@ public class MainUI : MonoBehaviour
         root.Add(_mainMenuScreen.GetVisualElement());
         root.Add(_hudScreen.GetVisualElement());
     }
+}
+
+public enum UIScreens {
+    MainMenu,
+    UpgradeMenu,
+    HUD
 }

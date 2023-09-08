@@ -80,6 +80,7 @@ public class SkillTreeVisual : VisualElement {
     private void DrawLine(Painter2D painter, Vector2 from, Vector2 to) {
         painter.BeginPath();
         painter.lineWidth = 2;
+        painter.strokeColor = Color.black;
         painter.LineTo(from);
         painter.LineTo(to);
         painter.ClosePath();
