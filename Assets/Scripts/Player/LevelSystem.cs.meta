@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Event/StringEventChannel.cs.meta
+guid: 6802e618b4c6f284f97c544b15308eaa
+========
+guid: d3a4f72cdc0d6344b869f2e156cbb948
+>>>>>>>> 1429158cf7d24d2b1c20f30ca454bface3d68e97:Assets/Scripts/Player/LevelSystem.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

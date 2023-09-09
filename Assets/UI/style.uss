@@ -1,0 +1,225 @@
+:root {
+	--primary-color: #791616;
+	--secondary-color: #241935;
+	--third-color:#952619;
+	--fourth-color: #351018;
+	--highlight-color: #E88213;
+
+	--border-color: var(--highlight-color);
+	--border-width: 2px;
+	--background-color: var(--primary-color);
+
+	--color: var(--highlight-color);
+
+	--small-font-size: 14px;
+	--normal-font-size: 18px;
+	--big-font-size: 24px;
+
+
+	justify-content: center;
+	align-items: center;
+}
+
+* {
+	color: var(--primary-color);
+	margin: 0;
+	padding: 0;
+	border-width: 0;
+}
+
+.unity-progress-bar__container {
+	max-height: none;
+	min-height: auto;
+}
+
+.screen {
+	height: 100%;
+	width: 100%;
+	align-items: center;
+
+}
+
+.menuContainer {
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 350px;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+.menuContainer Image {
+	height: 180px;
+	margin-bottom: 50px;
+}
+
+.menuButtons {
+	flex-direction: column;
+	width: 250px;
+	font-size: 18px;
+	justify-content: space-between;
+}
+
+.menuButtons Button {
+	color: var(--color);
+	font-size: var(--big-font-size);
+	-unity-font-style: bold;
+	background-color: var(--background-color);
+	height: 50px;
+	margin: 10px;
+	border-color: var(--border-color);
+	border-width: 0px 5px;
+	border-radius: 5px;
+	transition: 0.15s all;
+}
+
+.menuButtons Button:hover {
+	scale: 1.1;
+	border-width: 0 8px;
+	background-color: #952619;
+	color: white;
+	transition: 0.15s all;
+}
+
+
+/***************************************
+---------------Main Menu ---------------
+***************************************/
+
+.mainMenu {
+	justify-content: center;
+	align-items: flex-start;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+/***************************************
+--------------- Pause Menu -------------
+***************************************/
+
+
+.pauseMenu {
+	justify-content: center;
+	align-items: flex-start;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+/***************************************
+--------------- Upgrade Menu ---------
+***************************************/
+
+.upgradeMenu {
+	align-self: center;
+	justify-content: flex-start;
+	background-color: var(--background-color);
+	width: 90%;
+	height: 90%;
+	border-width: 0 10px;
+	border-color: var(--border-color);
+	border-radius: 5px;
+}
+
+.upgradeTooltip {
+	background-color: #952619;
+	border-width: 3px;
+	border-color: white;
+	border-radius: 5px;
+	padding: 5px;
+	margin-left: 65px;
+	max-width: 300px;
+}
+
+.upgradeTooltip * {
+	color: white;
+}
+
+.upgradeTooltip .title {
+	font-size: var(--normal-font-size);
+	-unity-font-style: bold;
+	border-color: white;
+	margin-bottom: 5px;
+	white-space: normal;
+}
+
+.upgradeTooltip .text {
+	font-size: var(--small-font-size);
+	white-space: normal;
+}
+
+
+.upgradeTree Button {
+	height: 60px;
+	width: 60px;
+	align-self: center;
+	background-color: #351018;
+	border-radius: 5px;
+	margin: 10px;
+	transition: 0.05s all;
+}
+
+.upgradeTree Button Image{
+	height: 100%;
+	width: 100%;
+}
+
+.upgradeTree Button.learned {
+	border-width: 5px;
+	border-color: #228B22;
+}
+
+.upgradeTree Button:hover {
+	scale: 1.2;
+	border-width: 5px;
+	border-color: white;
+	transition: 0.15s all;
+}
+
+.childContainer {
+	flex-direction: row;
+}
+
+
+/***************************************
+---------------HUD ---------------------
+***************************************/
+
+.HUD {
+
+}
+
+.skillBar {
+	/*border-radius: 35px 35px 0 0;
+	background-color: #791616;
+	padding: 5px 30px 0px 30px; */
+	position: absolute;
+	
+	flex-direction: row; 
+	justify-content: center;
+
+	padding-bottom: 20px;
+	padding-top: 20px;
+	padding-left: 60px;
+	padding-right: 40px;
+
+
+	bottom: 50px;
+	right: 50px;
+	opacity: 0.3;
+}
+
+.skill{
+	width: 80px;
+	height: 80px;
+	margin: 5px;
+	border-color: white;
+	border-width: 2px;
+}
+
+.skill Image {
+	width: 100%;
+	height: 100%;
+}
+
