@@ -1,15 +1,49 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioHandler : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] _music; // 0 = menu, 1 = day, 2 = night
+    [SerializeField] private StringEventChannel _musicEvent;
+    [SerializeField] private AudioData[] _music;
 
     private AudioSource _musicPlayer;
 
-    public void PlayTheme(int index)
+    #region SETUP
+
+    void OnEnable()
     {
-        _musicPlayer.clip = _music[index];
+        _musicEvent.OnStringEventRaised += PlayTheme;
+    }
+
+    void OnDisable()
+    {
+        _musicEvent.OnStringEventRaised -= PlayTheme;
+    }
+
+    private void Start()
+    {
+        _musicPlayer = gameObject.GetComponent<AudioSource>();
+
+        PlayTheme("Menu");
+    }
+    
+    #endregion
+
+    public void PlayTheme(string name)
+    {
+        var theme = Array.Find<AudioData>(_music, audio => audio.Name == name);
+        _musicPlayer.clip = theme.Clip;
+        _musicPlayer.volume = theme.Volume;
+        _musicPlayer.pitch = theme.Pitch;
+        _musicPlayer.loop = theme.Loop;
         _musicPlayer?.Play();
     }
+
+    // public void PlayRandomPitch(string name)
+    // {
+        // Sound s = Array.Find(sounds, sound => sound.name == name);
+        // s.source.pitch = UnityEngine.Random.Range(.6f, 1.4f);
+        // s.source.Play();
+    // }
+
 }

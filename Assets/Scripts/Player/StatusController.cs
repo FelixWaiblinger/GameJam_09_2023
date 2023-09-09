@@ -18,7 +18,7 @@ public class StatusController : MonoBehaviour, IDamagable
     public void TakeDamage(float amount)
     {
         _currentHealth -= amount;
-
+        
         _healthEvent.RaiseFloatEvent(Mathf.Clamp01(_currentHealth / _maxHealth));
         _hitEvent.RaiseVoidEvent();
 

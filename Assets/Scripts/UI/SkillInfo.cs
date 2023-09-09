@@ -9,6 +9,8 @@ public class SkillInfo
     public string Name;
     public Texture UIIcon;
 
+    public SkillInfo() {}
+
     public SkillInfo(float currentCD, Ability skill)
     {
         CurrentCoolDown = currentCD;

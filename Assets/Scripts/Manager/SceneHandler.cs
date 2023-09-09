@@ -5,11 +5,8 @@ using UnityEngine.UI;
 public class SceneHandler : MonoBehaviour
 {
     [Header("Scene management")]
-    [Tooltip("Request to change current active scene")]
     [SerializeField] private IntEventChannel _sceneEvent;
-    [Tooltip("Canvas to display a loading screen")]
     [SerializeField] private Canvas _loadingScreen;
-    [Tooltip("Show current progress of scene load")]
     [SerializeField] private Image _progressBar;
 
     private float _targetProgress = 0;
