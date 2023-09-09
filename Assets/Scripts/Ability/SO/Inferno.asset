@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45ed39e564b067f4e97d7dc03fb58297, type: 3}
   m_Name: Inferno
   m_EditorClassIdentifier: 
+  Id: 10001
+  Name: Inferno
+  Description: This throws a kaisa Q!
+  Icon: {fileID: 2800000, guid: d01d1653f871af6418f84e2c5a55ca55, type: 3}
   Cooldown: 0.2
   _projectile: {fileID: 2483766895794942423, guid: c61c2e9869111fc4fa122f46d26b977b,
     type: 3}

@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 489650795}
   - component: {fileID: 489650794}
   - component: {fileID: 489650793}
+  - component: {fileID: 489650797}
   m_Layer: 5
   m_Name: HUD UI Canvas
   m_TagString: Untagged
@@ -408,6 +409,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &489650797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489650792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 365239cdbdf41ad468da774c1b8712a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &514194545
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadSceneChannel: {fileID: 11400000, guid: 0d03d33ae3117064ebf8d0d7befdac66, type: 2}
+  gameData: {fileID: 11400000, guid: a581a4f6aa7bc014aaa3e38c513825a7, type: 2}
 --- !u!1 &1790027988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,6 +1113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247af742ab6e0444903c51196fbde6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _HealthChangeEventChannel: {fileID: 11400000, guid: eed056d00f251c94dafc4d07529008f4,
+    type: 2}
+  _ExperienceChangeEventChannel: {fileID: 11400000, guid: 8712925f532a73b4281483d04a67b3a6,
+    type: 2}
+  _SkillInfoEventChannel: {fileID: 11400000, guid: 726aaccbce7f47248a2c589edd594c9b,
+    type: 2}
 --- !u!1 &1905381176
 GameObject:
   m_ObjectHideFlags: 0

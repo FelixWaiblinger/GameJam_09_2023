@@ -59,29 +59,27 @@ public class HUDScreen : UIScreen
     private void UpdateCooldown(SkillInfo info) {
         float progress = info.CurrentCoolDown / info.MaxCooldown;
         UISkill skill = skillbar.Q<UISkill>(info.Name);
-        skill.UpdateCooldown(progress);
+        if(skill != null) {
+            skill.UpdateCooldown(progress);
+        }
     }
-    private void UpdateSkills(SkillInfo[] infos) {
-        skillbar = new SkillBar(infos, this.backgroundSprite);
+    private void UpdateSkills(GameData gameData) {
+        SkillInfo info1 = new SkillInfo(0, gameData.Primary);
+        SkillInfo info2 = new SkillInfo(0, gameData.Secondary);
+
+        Debug.Log("Was here");
+
+        _screen.Remove(skillbar);
+        skillbar = new SkillBar(new SkillInfo[] { info1, info2 }, this.backgroundSprite);
+        _screen.Add(skillbar);
     }
 
     private void GenerateUI() {
-
         Label label = Create<Label>();
         label.text = "This is ingame!";
         _screen.Add(label);
 
-        // Skill Bar
-        SkillInfo info = new SkillInfo();
-        info.UIIcon = texture;
-        info.Name = "Fireball";
-
-        // Skill Bar
-        SkillInfo info2 = new SkillInfo();
-        info2.UIIcon = texture;
-        info2.Name = "Firewall";
-
-        UpdateSkills(new SkillInfo[] { info, info2 });
+        skillbar = new SkillBar(new SkillInfo[] { }, this.backgroundSprite);
         _screen.Add(skillbar);
     }
 

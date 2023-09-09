@@ -27,7 +27,7 @@ public class MainUI : MonoBehaviour
         MainMenuController.OnRunStarted += ShowHUD;
     }
 
-    private void ShowHUD() {
+    private void ShowHUD(GameData gameData) {
         ShowScreen(UIScreens.HUD);
     }
 

@@ -21,8 +21,8 @@ public class UpgradeScreen : UIScreen {
         UpgradeComponent<SkillNodeSO>.OnMouseOut += HideTooltip;
     }
 
-    private void UpdateUpgradeElement(string identifier) {
-        Button btn = _screen.Q<Button>(identifier);
+    private void UpdateUpgradeElement(SkillNodeSO upgradeData) {
+        Button btn = _screen.Q<Button>(upgradeData.Identifier);
         btn.AddToClassList("learned");
     }
 
@@ -50,7 +50,6 @@ public class UpgradeScreen : UIScreen {
     }
 
     private void ShowTooltip(SkillNodeSO gameData, Vector2 position) {
-        //Debug.Log(gameData + ": " + position);
         _tooltipContainer.Clear();
 
         Vector2 tooltipPosition = position - _screen.worldBound.position;
@@ -68,10 +67,7 @@ public class UpgradeScreen : UIScreen {
     }
 
     private void HideTooltip(SkillNodeSO arg1, Vector2 vector) {
-        //Debug.Log(arg1 + "OUT: " + vector);
         _tooltipContainer.style.display = DisplayStyle.None;
     }
-
-
 }
 
