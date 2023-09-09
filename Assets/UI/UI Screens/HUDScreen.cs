@@ -160,16 +160,58 @@ public class CircleCooldown: VisualElement {
         Painter2D painter = context.painter2D;
         painter.fillColor = new Color(100, 100, 100, 0.5f);
         painter.BeginPath();
-        painter.Arc(new Vector2(0, 0), Radius, 0, 360 - Mathf.Min(angle, 359), ArcDirection.CounterClockwise);
-        if (angle < 360) {
-            painter.LineTo(new Vector2(0, 0));
+        //painter.Arc(new Vector2(0, 0), Radius, 0, 360 - Mathf.Min(angle, 359), ArcDirection.CounterClockwise);
+        //if (angle < 360) {
+        //    painter.LineTo(new Vector2(0, 0));
+        //}
+        //painter.Fill();
+
+        if (angle > 360) {
+            painter.LineTo(new Vector2(Radius, Radius));
+            painter.LineTo(new Vector2(-Radius, Radius));
+            painter.LineTo(new Vector2(-Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, -Radius));
+            painter.Fill();
+            return;
         }
-        painter.Fill();
 
+        painter.LineTo(new Vector2(0, 0));
 
-        Vector2 point = GetPoint(Radius, Mathf.Round(angle));
-        Debug.Log(point);
-        Debug.Log("Distance " + Vector2.Distance(point, new Vector2(0, 0)));
+        Vector2 progressPoint = GetPoint(Radius, 360 - angle);
+        painter.LineTo(progressPoint);
+
+        if(progressPoint.y > 0 && progressPoint.x > 0) {
+            painter.LineTo(new Vector2(Radius, Radius));
+            painter.LineTo(new Vector2(-Radius, Radius));
+            painter.LineTo(new Vector2(-Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, 0));
+            painter.Fill();
+        }
+
+        else if (progressPoint.y > 0 && progressPoint.x < Radius) {
+            painter.LineTo(new Vector2(-Radius, Radius));
+            painter.LineTo(new Vector2(-Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, 0));
+            painter.Fill();
+        }
+        else if(progressPoint.y < 0 && progressPoint.x < 0) {
+            painter.LineTo(new Vector2(-Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, 0));
+            painter.Fill();
+        }
+        else if (progressPoint.y < 0 && progressPoint.x > 0) {
+            painter.LineTo(new Vector2(Radius, -Radius));
+            painter.LineTo(new Vector2(Radius, 0));
+            painter.Fill();
+        }
+
+        painter.Stroke();
+
+        Debug.Log(progressPoint);
+        Debug.Log("Distance " + Vector2.Distance(progressPoint, new Vector2(0, 0)));
 
 
 
