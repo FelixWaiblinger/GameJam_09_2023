@@ -22,7 +22,7 @@ public class MainMenuScreen : UIScreen
     }
 
     private void AddMenuButtons() {
-        VisualElement menuButtons = Create("mainMenuButtons");
+        VisualElement menuButtons = Create("menuButtons");
 
         Button playBtn= Create<Button>();
         playBtn.text = "Play";

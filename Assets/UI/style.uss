@@ -40,24 +40,14 @@
 
 }
 
-
-/***************************************
----------------Main Menu ---------------
-***************************************/
-
-.mainMenu {
-	justify-content: center;
-}
-
-.mainMenuButtons {
+.menuButtons {
 	flex-direction: column;
 	width: 250px;
-	height: 180px;
 	font-size: 18px;
 	justify-content: space-between;
 }
 
-.mainMenuButtons Button {
+.menuButtons Button {
 	color: var(--color);
 	font-size: var(--big-font-size);
 	-unity-font-style: bold;
@@ -70,12 +60,44 @@
 	transition: 0.15s all;
 }
 
-.mainMenuButtons Button:hover {
+.menuButtons Button:hover {
 	scale: 1.1;
 	border-width: 0 8px;
 	background-color: #952619;
 	color: white;
 	transition: 0.15s all;
+}
+
+
+/***************************************
+---------------Main Menu ---------------
+***************************************/
+
+.mainMenu {
+	justify-content: center;
+	align-items: center;
+	width: 350px;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+/***************************************
+--------------- Pause Menu -------------
+***************************************/
+
+/* .menuContainer {
+	align-items: center;
+	width: 350px;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+} */
+
+.pauseMenu {
+	justify-content: center;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
 }
 
 /***************************************
