@@ -6,6 +6,7 @@ using UnityEngine;
 public class UpgradeScreenController : MonoBehaviour
 {
     [SerializeField] private SkillTreeSO skillTreeSO;
+    [SerializeField] private IntEventChannel _levelUpEventChannel;
 
     [SerializeField] private int _skillPoints = 0;
 
@@ -18,11 +19,17 @@ public class UpgradeScreenController : MonoBehaviour
     }
 
     void OnEnable() {
-        UpgradeComponent<SkillNodeSO>.OnClicked += OnUpgradeClicked;    
+        UpgradeComponent<SkillNodeSO>.OnClicked += OnUpgradeClicked;
+        _levelUpEventChannel.OnIntEventRaised += OnLevelUp;
     }
 
     private void OnDisable() {
         UpgradeComponent<SkillNodeSO>.OnClicked -= OnUpgradeClicked;    
+        _levelUpEventChannel.OnIntEventRaised -= OnLevelUp;
+    }
+
+    private void OnLevelUp(int level) {
+        _skillPoints++;
     }
 
     private void OnUpgradeClicked(SkillNodeSO upgradeData) {

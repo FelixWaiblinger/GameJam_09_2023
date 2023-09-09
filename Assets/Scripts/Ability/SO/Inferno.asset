@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Inferno
   Description: This throws a kaisa Q!
   Icon: {fileID: 2800000, guid: d01d1653f871af6418f84e2c5a55ca55, type: 3}
-  Cooldown: 0.2
+  Cooldown: 4
   _projectile: {fileID: 2483766895794942423, guid: c61c2e9869111fc4fa122f46d26b977b,
     type: 3}
   _projectileNumber: 20

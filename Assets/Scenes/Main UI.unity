@@ -616,6 +616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillTreeSO: {fileID: 11400000, guid: bea003c9a15728342a7ff360a92bcead, type: 2}
+  _levelUpEventChannel: {fileID: 11400000, guid: b7c471108d74fd840b18141618326d33,
+    type: 2}
   _skillPoints: 7
 --- !u!4 &841191084
 Transform:
