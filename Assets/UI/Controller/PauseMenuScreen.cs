@@ -10,6 +10,8 @@ public class PauseMenuScreen : UIScreen
     public static event Action OnSettingsClicked;
     public static event Action OnQuitClicked;
 
+    [SerializeField] private Texture gameIcon;
+
     protected override void Awake() {
         base.Awake();
         _screen.AddToClassList("pauseMenu");
@@ -38,6 +40,11 @@ public class PauseMenuScreen : UIScreen
 
     private void Generate() {
         VisualElement container = Create("menuContainer");
+
+        Image gameIcon = new Image();
+        gameIcon.image = this.gameIcon;
+        container.Add(gameIcon);
+
         VisualElement menuButtons = Create("menuButtons");
         container.Add(menuButtons);
 
