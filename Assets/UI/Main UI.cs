@@ -14,6 +14,7 @@ public class MainUI : MonoBehaviour
     [SerializeField] private MainMenuScreen _mainMenuScreen;
     [SerializeField] private UpgradeScreen _upgradeScreen;
     [SerializeField] private HUDScreen _hudScreen;
+    [SerializeField] private PauseMenuScreen _pauseMenuScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,6 @@ public class MainUI : MonoBehaviour
     }
 
     private void OnEnable() {
-        InputReader.pauseEvent += DoSomething;
         MainMenuController.OnRunStarted += ShowHUD;
     }
 
@@ -32,7 +32,6 @@ public class MainUI : MonoBehaviour
     }
 
     private void OnDisable() {
-        InputReader.pauseEvent -= DoSomething;
         MainMenuController.OnRunStarted -= ShowHUD;
     }
 
@@ -42,10 +41,6 @@ public class MainUI : MonoBehaviour
         int index = Array.IndexOf(modes, current);
         index = (index + 1) % modes.Length;
         return (UIScreens)modes.GetValue(index);
-    }
-
-    public void DoSomething() {
-        ShowScreen(GetNextMode(currentScreen));
     }
 
     private void ShowScreen(UIScreens uiScreen) {
@@ -62,6 +57,9 @@ public class MainUI : MonoBehaviour
             case UIScreens.HUD:
                 _hudScreen.ShowScreen();
                 break;
+            case UIScreens.PauseMenu:
+                _pauseMenuScreen.ShowScreen();
+                break;
             default:
                 break; throw new NotImplementedException();
         }
@@ -71,6 +69,7 @@ public class MainUI : MonoBehaviour
         _mainMenuScreen.HideScreen();
         _upgradeScreen.HideScreen();
         _hudScreen.HideScreen();
+        _pauseMenuScreen.HideScreen();
     }
 
     private void SetVisualElements() {
@@ -82,11 +81,13 @@ public class MainUI : MonoBehaviour
         root.Add(_upgradeScreen.GetVisualElement());
         root.Add(_mainMenuScreen.GetVisualElement());
         root.Add(_hudScreen.GetVisualElement());
+        root.Add(_pauseMenuScreen.GetVisualElement());
     }
 }
 
 public enum UIScreens {
     MainMenu,
     UpgradeMenu,
-    HUD
+    HUD,
+    PauseMenu
 }

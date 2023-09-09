@@ -9,7 +9,6 @@ public class MainMenuController : MonoBehaviour
 
     public static event Action<GameData> OnRunStarted;
 
-
     [SerializeField] private IntEventChannel loadSceneChannel;
     [SerializeField] private GameData gameData;
 

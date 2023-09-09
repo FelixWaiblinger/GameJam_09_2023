@@ -11,6 +11,8 @@ public class MainMenuScreen : UIScreen
     public static event Action OnSettingsClicked;
     public static event Action OnQuitClicked;
 
+    [SerializeField] private Texture gameIcon;
+
     protected override void Awake() {
         base.Awake();
         Generate();
@@ -22,7 +24,14 @@ public class MainMenuScreen : UIScreen
     }
 
     private void AddMenuButtons() {
-        VisualElement menuButtons = Create("mainMenuButtons");
+        VisualElement container = Create("menuContainer");
+
+        Image gameIcon = new Image();
+        gameIcon.image = this.gameIcon;
+        container.Add(gameIcon);
+
+        VisualElement menuButtons = Create("menuButtons");
+        container.Add(menuButtons);
 
         Button playBtn= Create<Button>();
         playBtn.text = "Play";
@@ -40,7 +49,7 @@ public class MainMenuScreen : UIScreen
         menuButtons.Add(settingsBtn);
         menuButtons.Add(quitBtn);
 
-        _screen.Add(menuButtons);
+        _screen.Add(container);
     }
 
 }

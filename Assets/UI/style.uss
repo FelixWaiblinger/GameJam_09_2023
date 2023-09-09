@@ -25,7 +25,6 @@
 	margin: 0;
 	padding: 0;
 	border-width: 0;
-
 }
 
 .unity-progress-bar__container {
@@ -40,24 +39,27 @@
 
 }
 
-
-/***************************************
----------------Main Menu ---------------
-***************************************/
-
-.mainMenu {
+.menuContainer {
+	align-items: center;
 	justify-content: center;
+	height: 100%;
+	width: 350px;
+	background-color: rgba(0, 0, 0, 0.8);
 }
 
-.mainMenuButtons {
+.menuContainer Image {
+	height: 180px;
+	margin-bottom: 50px;
+}
+
+.menuButtons {
 	flex-direction: column;
 	width: 250px;
-	height: 180px;
 	font-size: 18px;
 	justify-content: space-between;
 }
 
-.mainMenuButtons Button {
+.menuButtons Button {
 	color: var(--color);
 	font-size: var(--big-font-size);
 	-unity-font-style: bold;
@@ -70,12 +72,39 @@
 	transition: 0.15s all;
 }
 
-.mainMenuButtons Button:hover {
+.menuButtons Button:hover {
 	scale: 1.1;
 	border-width: 0 8px;
 	background-color: #952619;
 	color: white;
 	transition: 0.15s all;
+}
+
+
+/***************************************
+---------------Main Menu ---------------
+***************************************/
+
+.mainMenu {
+	justify-content: center;
+	align-items: flex-start;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
+/***************************************
+--------------- Pause Menu -------------
+***************************************/
+
+
+.pauseMenu {
+	justify-content: center;
+	align-items: flex-start;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
 }
 
 /***************************************
