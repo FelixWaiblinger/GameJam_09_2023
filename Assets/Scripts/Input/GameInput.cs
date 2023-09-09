@@ -293,7 +293,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""fc9c53a0-9121-47fa-90f4-23e5a5800ae1"",
                     ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Hold(duration=0.2)"",
+                    ""interactions"": ""Hold(duration=0.001)"",
                     ""processors"": """",
                     ""groups"": ""MouseKeyboard"",
                     ""action"": ""Pan"",
