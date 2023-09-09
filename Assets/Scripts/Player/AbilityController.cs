@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +9,21 @@ public enum Slot
 public class AbilityController : MonoBehaviour
 {
     [SerializeField] private GameData _gameData;
-    [SerializeField] private Transform _abilityOrigin;
-    [SerializeField] private Transform _target;
-    [SerializeField] private LayerMask _groundLayers, _enemyLayer;
+    [SerializeField] private SkillInfoEventChannel _skillInfoEvent;
 
-    private Vector3 _hitPoint, ignoreY = new(1, 0, 1);
+    [Header("Control")]
+    [SerializeField] private BoolEventChannel _combatEvent;
+    [SerializeField] private FloatEventChannel _silenceEvent;
+    private float _silenceTimer;
+
+    [Header("Casting")]
+    [SerializeField] private Transform _target;
+    [SerializeField] private Transform _abilityOrigin;
+    [SerializeField] private LayerMask _enemyLayer;
+    [SerializeField] private float _detectionRadius;
+    private Vector3 ignoreY = new(1, 0, 1);
     private Camera _camera;
+
     private Dictionary<Slot, Ability> _slots = new Dictionary<Slot, Ability>();
     private Dictionary<Slot, float> _cooldownTimers = new Dictionary<Slot, float>()
     {
@@ -33,20 +41,20 @@ public class AbilityController : MonoBehaviour
 
     #region SETUP
 
-    private void OnEnable()
+    void OnEnable()
     {
         InputReader.mousePosEvent += FindTarget;
         InputReader.attackSlotEvent += Attack;
-        InputReader.primarySlotEvent += Primary;
-        InputReader.secondarySlotEvent += Secondary;
+        InputReader.primarySlotEvent += () => Cast(Slot.Primary);
+        InputReader.secondarySlotEvent += () => Cast(Slot.Secondary);
+
+        _silenceEvent.OnFloatEventRaised += (duration) => _silenceTimer = duration;
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         InputReader.mousePosEvent -= FindTarget;
         InputReader.attackSlotEvent -= Attack;
-        InputReader.primarySlotEvent -= Primary;
-        InputReader.secondarySlotEvent -= Secondary;
     }
     
     void Start()
@@ -62,24 +70,30 @@ public class AbilityController : MonoBehaviour
 
     void Update()
     {
-        UpdateCooldowns();
+        UpdateTimers();
     }
+
+    #region TARGET
 
     void FindTarget(Vector2 mousePos)
     {
-        var ray = _camera.ScreenPointToRay(mousePos);
-        if (!Physics.Raycast(ray, out RaycastHit hit, 100, _groundLayers)) return;
+        if (CameraTools.GetScreenToWorld(mousePos, out Vector3 worldPos))
+        {
+            _target.position = worldPos - Vector3.up * (worldPos.y - _abilityOrigin.position.y);
+        }
 
-        _hitPoint = hit.point;
-
-        _target.position = Vector3.Scale(hit.point, ignoreY) + Vector3.up * transform.position.y;
         _abilityOrigin.rotation = Quaternion.LookRotation(_target.position - _abilityOrigin.position);
     }
 
     bool FindEnemy(out Transform enemy)
     {
         enemy = null;
-        var enemies = Physics.OverlapSphere(_hitPoint, 10, _enemyLayer, QueryTriggerInteraction.Ignore);
+        var enemies = Physics.OverlapSphere(
+            _target.position,
+            _detectionRadius,
+            _enemyLayer,
+            QueryTriggerInteraction.Ignore
+        );
 
         if (enemies.Length == 0) return false;
         
@@ -97,27 +111,26 @@ public class AbilityController : MonoBehaviour
         return true;
     }
 
+    #endregion
+
     #region ABILITY
 
     void Attack()
     {
         if (!TryAddCooldown(Slot.Attack)) return;
 
-        // _slots[(int)Slot.Attack].Activate(_abilityOrigin, _target);
+        _slots[Slot.Attack].Activate(_abilityOrigin, _target);
+        _combatEvent.RaiseBoolEvent(true);
     }
 
-    void Primary()
+    void Cast(Slot slot)
     {
-        if (!TryAddCooldown(Slot.Primary)) return;
+        if (_silenceTimer > 0) return;
 
-        _slots[Slot.Primary].Activate(_abilityOrigin, FindEnemy(out Transform enemy) ? enemy : _target);
-    }
+        if (!TryAddCooldown(slot)) return;
 
-    void Secondary()
-    {
-        if (!TryAddCooldown(Slot.Secondary)) return;
-
-        _slots[Slot.Secondary].Activate(_abilityOrigin, _target);
+        _slots[slot].Activate(_abilityOrigin, FindEnemy(out Transform enemy) ? enemy : _target);
+        _combatEvent.RaiseBoolEvent(true);
     }
 
     bool TryAddCooldown(Slot name)
@@ -131,14 +144,18 @@ public class AbilityController : MonoBehaviour
         return true;
     }
 
-    void UpdateCooldowns()
+    #endregion
+
+    void UpdateTimers()
     {
         foreach (Slot s in _slots.Keys)
         {
             if (_cooldownTimers[s] < 0) continue;
             _cooldownTimers[s] -= Time.deltaTime;
+            _skillInfoEvent.RaiseSkillInfoEvent(new SkillInfo(_cooldownTimers[s], _slots[s]));
         }
+
+        if (_silenceTimer > 0) _silenceTimer -= Time.deltaTime;
     }
 
-    #endregion
 }

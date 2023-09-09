@@ -1,15 +1,8 @@
 using UnityEngine;
 using Cinemachine;
 
-// danger zone
-// using System.Runtime.InteropServices;
-
 public class CameraController : MonoBehaviour
 {
-    // danger zone
-    // [DllImport("user32.dll")]
-    // static extern bool SetCursorPos(int X, int Y);
-
     [SerializeField] private Transform _focusPoint;
 
     [Header("Fine-tuning")]
@@ -23,8 +16,8 @@ public class CameraController : MonoBehaviour
 
     private Transform _camera;
     private CinemachineTransposer _cameraFrame;
-    private Vector2 _mousePos, _bla, _mouseDelta, _mouseSpeedThreshold = new(0.112f, 0.189f);
-    private Vector3 _targetDistance,_tempZoom;
+    private Vector2 _mousePos, _mouseDelta, _mouseSpeedThreshold = new(0.112f, 0.189f);
+    private Vector3 _targetDistance, _tempZoom;
     private float _targetYaw, _targetPitch, _panThreshold = 0.01f;
     private bool _isPanning = false;
 
@@ -35,11 +28,7 @@ public class CameraController : MonoBehaviour
         InputReader.zoomEvent += SetZoomLevel;
         InputReader.mousePosEvent += (position) => _mousePos = position;
         InputReader.lookEvent += (delta) => _mouseDelta = delta * _mouseSpeedThreshold; // maybe remove this threshold
-        InputReader.panEvent += (active) => {
-            _isPanning = active;
-            // if (_isPanning) _bla = _mousePos;
-            // else SetCursorPos((int)_bla.x, (int)_bla.y);
-        };
+        InputReader.panEvent += (active) => _isPanning = active;
     }
 
     void OnDisable()
@@ -55,6 +44,7 @@ public class CameraController : MonoBehaviour
 
         _targetDistance = _cameraFrame.m_FollowOffset;
         _targetYaw = _focusPoint.rotation.eulerAngles.y;
+        _targetPitch = _focusPoint.rotation.eulerAngles.x;
     }
 
     #endregion
@@ -70,7 +60,6 @@ public class CameraController : MonoBehaviour
     {
         if (_isPanning)
         {
-            // Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
 
             if (_mouseDelta.magnitude >= _panThreshold)
@@ -82,11 +71,7 @@ public class CameraController : MonoBehaviour
             _targetYaw = _targetYaw % 360;
             _targetPitch = Mathf.Clamp(_targetPitch, _bottomClamp, _topClamp);
         }
-        else
-        {
-            // Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+        else Cursor.lockState = CursorLockMode.None;
 
         _focusPoint.rotation = Quaternion.RotateTowards(
             _focusPoint.rotation,
@@ -109,10 +94,7 @@ public class CameraController : MonoBehaviour
     {
         if (direction == 0) return;
 
-        _targetDistance = new(0, 0, Mathf.Clamp(
-            _cameraFrame.m_FollowOffset.z + direction * _zoomPerTick,
-            _minDistance,
-            _maxDistance
-        ));
+        var distanceZ = _cameraFrame.m_FollowOffset.z + direction * _zoomPerTick;
+        _targetDistance = Vector3.forward * Mathf.Clamp(distanceZ, -_maxDistance, -_minDistance);
     }
 }

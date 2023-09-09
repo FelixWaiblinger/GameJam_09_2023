@@ -1,9 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
+    [Header("Control")]
+    [SerializeField] private BoolEventChannel _combatEvent;
+    [SerializeField] private FloatEventChannel _rootEvent;
+    private float _combatTimer, _rootTimer;
 
     [Header("Movement")]
     [SerializeField] private Transform _visuals;
@@ -12,7 +14,8 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float _sprintSpeed;
     private Rigidbody _rigidBody;
     private Transform _camera;
-    private Vector3 _moveDirection, ignoreY = new(1, 0, 1);
+    private Vector2 _mousePosition;
+    private Vector3 _mouseInWorld, _moveDirection, ignoreY = new(1, 0, 1);
     private float _accelerationTime = 0, _targetYaw = 0, _rotationSmoothness = 0.12f;
     private float _tempRotation;
     private bool _isSprinting = false;
@@ -25,20 +28,24 @@ public class MovementController : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _playerGravity;
-    private float _groundOffset = 0.7f, _groundRadius = 0.335f;
-    private LayerMask _groundLayers;
+    [SerializeField] private float _gravityMultiplier;
+    [SerializeField] private LayerMask _groundLayers;
+    [SerializeField] private float _groundOffset = 0.5f;
+    private float _groundRadius;
     private bool _isGrounded = true;
 
     #region SETUP
 
     void OnEnable()
     {
-        // TODO unsubscribe lambdas
-        InputReader.moveEvent += (direction) => _moveDirection = new(direction.x, 0, direction.y);
-        InputReader.sprintEvent += (active) => _isSprinting = active;
         InputReader.jumpEvent += Jump;
         InputReader.dashEvent += Dash;
+        InputReader.moveEvent += (direction) => _moveDirection = new(direction.x, 0, direction.y);
+        InputReader.sprintEvent += (active) => _isSprinting = _combatTimer <= 0 && active;
+        InputReader.mousePosEvent += (position) => _mousePosition = position;
+
+        _combatEvent.OnBoolEventRaised += (active) => _combatTimer = active ? 10 : 0;
+        _rootEvent.OnFloatEventRaised += (duration) => _rootTimer = duration;
     }
 
     void OnDisable()
@@ -49,27 +56,36 @@ public class MovementController : MonoBehaviour
 
     void Awake()
     {
-        _camera = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        _camera = Camera.main.transform;
         _rigidBody = gameObject.GetComponent<Rigidbody>();
+        _groundRadius = 1.1f * _groundOffset;
     }
 
     #endregion
 
     void FixedUpdate()
     {
-        UpdateSpeed();
+        SmoothFalling();
 
-        UpdateSmoothFalling();
+        GroundCheck();
 
-        UpdateGrounded();
+        if (_rootTimer > 0) return;
+
+        if (_combatTimer > 0) CombatMove();
+        else ExploreMove();
     }
 
     void Update()
     {        
-        UpdateDash();
+        UpdateTimers();
+
+        if (CameraTools.GetScreenToWorld(_mousePosition, out Vector3 worldPos))
+            _mouseInWorld = worldPos;
     }
 
-    void UpdateSpeed()
+    #region MOVEMENT
+
+    void ExploreMove()
     {
         var targetSpeed = _dashDurationTimer > 0 ? _dashSpeed : _isSprinting ? _sprintSpeed : _walkSpeed;
         var velocityXZ = Vector3.Scale(_rigidBody.velocity, ignoreY).magnitude;
@@ -106,26 +122,61 @@ public class MovementController : MonoBehaviour
         _rigidBody.AddForce(targetDirection * velocityXZ, ForceMode.VelocityChange);
     }
 
-    void UpdateSmoothFalling()
+    void CombatMove()
+    {
+        CombatRotation();
+
+        if (_moveDirection == Vector3.zero)
+        {
+            _accelerationTime = 0;
+            return;
+        }
+
+        var targetSpeed = _dashDurationTimer > 0 ? _dashSpeed : _walkSpeed;
+        var velocityXZ = targetSpeed * _accelerationCurve.Evaluate(_accelerationTime);
+        var targetDirection = Vector3.Scale(_camera.rotation * _moveDirection, ignoreY);
+
+        _rigidBody.AddForce(targetDirection * velocityXZ, ForceMode.VelocityChange);
+        _accelerationTime += Time.deltaTime;
+    }
+
+    void CombatRotation()
+    {
+        var direction = (_mouseInWorld - transform.position).normalized;
+
+        _targetYaw = Quaternion.LookRotation(direction).eulerAngles.y;
+
+        var currentYaw = Mathf.SmoothDampAngle(
+            _visuals.eulerAngles.y,
+            _targetYaw,
+            ref _tempRotation,
+            _rotationSmoothness
+        );
+            
+        _visuals.rotation = Quaternion.Euler(0, currentYaw, 0);
+    }
+
+    void SmoothFalling()
     {
         if (_rigidBody.velocity.y >= 0) return;
 
-        _rigidBody.velocity += 0.01f * _playerGravity * Vector3.up;
+        _rigidBody.AddForce(Physics.gravity * _gravityMultiplier, ForceMode.Acceleration);
     }
 
     void Jump()
     {
         if (!_isGrounded) return;
         
-        var force = _jumpForce * _rigidBody.mass - _playerGravity;
+        var force = _jumpForce * _rigidBody.mass;
         _rigidBody.AddForce(Vector3.up * force, ForceMode.Impulse);
+
+        _isGrounded = false;
     }
 
-    void UpdateGrounded()
+    void GroundCheck()
     {
-        var position = transform.position + Vector3.down * _groundOffset;
         _isGrounded = Physics.CheckSphere(
-            position,
+            transform.position + Vector3.down * _groundOffset,
             _groundRadius,
             _groundLayers,
             QueryTriggerInteraction.Ignore
@@ -134,23 +185,37 @@ public class MovementController : MonoBehaviour
 
     void Dash()
     {
+        if (_combatTimer <= 0) return;
+
         if (_dashCooldownTimer > 0 || _dashDurationTimer > 0) return;
 
         _dashDurationTimer = _dashDuration;
     }
 
-    void UpdateDash()
+    #endregion
+
+    void UpdateTimers()
     {
+        var decrement = Time.deltaTime;
+
         if (_dashDurationTimer > 0)
         {
-            _dashDurationTimer -= Time.deltaTime;
+            _dashDurationTimer -= decrement;
 
             if (_dashDurationTimer < 0)
                 _dashCooldownTimer = _dashCooldown;
         }
         else if (_dashCooldownTimer > 0)
         {
-            _dashCooldownTimer -= Time.deltaTime;
+            _dashCooldownTimer -= decrement;
+        }
+
+        if (_rootTimer > 0) _rootTimer -= decrement;
+
+        if (_combatTimer > 0)
+        {
+            _combatTimer -= decrement;
+            if (_combatTimer < 0) _combatEvent.RaiseBoolEvent(false);
         }
     }
 }
