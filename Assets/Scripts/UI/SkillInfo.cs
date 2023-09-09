@@ -19,4 +19,5 @@ public class SkillInfo
         Name = skill.Name;
         UIIcon = skill.Icon;
     }
+
 }

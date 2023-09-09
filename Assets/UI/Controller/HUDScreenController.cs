@@ -5,43 +5,23 @@ using UnityEngine;
 
 public class HUDScreenController : MonoBehaviour
 {
-    float tempHP = 0;
-    float tempXP = 0;
-    float cd = 15;
-
+    [SerializeField] private FloatEventChannel _HealthChangeEventChannel;
+    [SerializeField] private FloatEventChannel _ExperienceChangeEventChannel;
+    [SerializeField] private SkillInfoEventChannel _SkillInfoEventChannel;
 
     public static event Action<float> OnExpChanged; // For now will pass in percentage
     public static event Action<float> OnHealthChanged; // For now will pass in percentage
     public static event Action<SkillInfo> OnCooldownChanged;
-    public static event Action<SkillInfo[]> OnSkillsChanged;
+    public static event Action<GameData> OnSkillsChanged;
 
     private void OnEnable() {
-        InputReader.attackSlotEvent += DoSomething;
-        InputReader.primarySlotEvent += DoSomethingElse;
+        MainMenuController.OnRunStarted += OnSkillsChanged;
+        _HealthChangeEventChannel.OnFloatEventRaised += (v => OnHealthChanged?.Invoke(v));
+        _ExperienceChangeEventChannel.OnFloatEventRaised += (v => OnExpChanged?.Invoke(v));
+        _SkillInfoEventChannel.OnSkillInfoEventRaised += (v => OnCooldownChanged?.Invoke(v));
     }
 
     private void OnDisable() {
-        InputReader.attackSlotEvent -= DoSomething;
-        InputReader.primarySlotEvent -= DoSomethingElse;
+        MainMenuController.OnRunStarted -= OnSkillsChanged;
     } 
-
-    private void DoSomethingElse() {
-        tempHP += 0.1f;
-        OnHealthChanged?.Invoke(tempHP);
-        cd += 10;
-    }
-
-    private void DoSomething() {
-        tempXP += 0.1f;
-        OnExpChanged?.Invoke(tempXP);
-    }
-
-    private void Update() {
-        SkillInfo info = new SkillInfo();
-        info.Name = "Fireball";
-        info.MaxCooldown = 15;
-        cd -= Time.deltaTime;
-        info.CurrentCoolDown = cd;
-        OnCooldownChanged?.Invoke(info);
-    }
 }

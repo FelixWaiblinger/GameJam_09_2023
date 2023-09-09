@@ -7,9 +7,11 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
 
-    [SerializeField] private IntEventChannel loadSceneChannel;
+    public static event Action<GameData> OnRunStarted;
 
-    public static event Action OnRunStarted;
+
+    [SerializeField] private IntEventChannel loadSceneChannel;
+    [SerializeField] private GameData gameData;
 
     private void OnEnable() {
         MainMenuScreen.OnPlayClicked += StartRun;
@@ -24,7 +26,7 @@ public class MainMenuController : MonoBehaviour
 
     private void StartRun() {
         loadSceneChannel.RaiseIntEvent(SceneManager.GetActiveScene().buildIndex + 1);
-        OnRunStarted?.Invoke();
+        OnRunStarted?.Invoke(gameData);
     }
 
     private void Quit() {
