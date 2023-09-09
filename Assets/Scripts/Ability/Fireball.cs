@@ -10,4 +10,6 @@ public class Fireball : Ability
         var p = Instantiate(_projectile, origin.position, origin.rotation);
         p.Init(target);
     }
+
+    
 }

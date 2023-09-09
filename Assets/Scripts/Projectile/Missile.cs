@@ -2,34 +2,60 @@ using UnityEngine;
 
 public class Missile : Projectile
 {
+    [SerializeField] private BOOM _explosion;
     [SerializeField] private float _offsetMultiplier = 1;
     [SerializeField] private float _duration = 1.5f;
 
-    private Transform _target;
-    private Vector3 _origin, _controlPoint, _initialTarget;
+    private Transform _target = null;
+    private Vector3 _origin, _controlPoint, _targetPosition;
     private float _currentTime = 0;
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.isTrigger) return;
+        
+        Debug.Log(other.gameObject.layer);
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            other.GetComponent<IDamagable>().TakeDamage(_damage);
+            Explode();
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        {
+            Debug.Log("found environment");
+            Explode();
+        }
+    }
 
     void Update()
     {
-        if (_currentTime > _duration) Destroy(gameObject);
+        if (_target == null) { Destroy(gameObject); return; }
+        if (_currentTime > _duration + 0.2f) { Explode(); return; }
 
         transform.position = CalculateBezierPoint(
             _currentTime / _duration,
             _origin,
-            _target.gameObject.layer == LayerMask.NameToLayer("Enemy") ? _target.position : _initialTarget,
+            _target.position + Vector3.up,
             _controlPoint
         );
 
         _currentTime += Time.deltaTime;
     }
 
-    Vector3 CalculateBezierPoint(float t, Vector3 startPosition, Vector3 endPosition, Vector3 controlPoint) {
-		float u = 1 - t;
-		float uu = u * u;
+    void Explode()
+    {
+        Instantiate(_explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
 
-		Vector3 point = uu * startPosition;
-		point += 2 * u * t * controlPoint;
-		point += t * t * endPosition;
+    Vector3 CalculateBezierPoint(float t, Vector3 start, Vector3 end, Vector3 control)
+    {
+		var u = 1 - t;
+		var uu = u * u;
+
+		var point = uu * start;
+		point += 2 * u * t * control;
+		point += t * t * end;
 
 		return point;
 	}
@@ -37,7 +63,6 @@ public class Missile : Projectile
     public override void Init(Transform target)
     {
         _target = target;
-        _initialTarget = target.position;
         _origin = transform.position - 1.5f * transform.forward;
 
         var rand = 5 * _offsetMultiplier * Random.insideUnitSphere;

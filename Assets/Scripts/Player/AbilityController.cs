@@ -20,7 +20,6 @@ public class AbilityController : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private Transform _abilityOrigin;
     [SerializeField] private LayerMask _enemyLayer;
-    [SerializeField] private float _detectionRadius;
     private Vector3 ignoreY = new(1, 0, 1);
     private Camera _camera;
 
@@ -85,32 +84,6 @@ public class AbilityController : MonoBehaviour
         _abilityOrigin.rotation = Quaternion.LookRotation(_target.position - _abilityOrigin.position);
     }
 
-    bool FindEnemy(out Transform enemy)
-    {
-        enemy = null;
-        var enemies = Physics.OverlapSphere(
-            _target.position,
-            _detectionRadius,
-            _enemyLayer,
-            QueryTriggerInteraction.Ignore
-        );
-
-        if (enemies.Length == 0) return false;
-        
-        var minDistance = float.MaxValue;
-        foreach (Collider c in enemies)
-        {
-            var distance = Vector3.Distance(c.transform.position, transform.position);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                enemy = c.transform;
-            }
-        }
-
-        return true;
-    }
-
     #endregion
 
     #region ABILITY
@@ -129,7 +102,7 @@ public class AbilityController : MonoBehaviour
 
         if (!TryAddCooldown(slot)) return;
 
-        _slots[slot].Activate(_abilityOrigin, FindEnemy(out Transform enemy) ? enemy : _target);
+        _slots[slot].Activate(_abilityOrigin, _target);
         _combatEvent.RaiseBoolEvent(true);
     }
 

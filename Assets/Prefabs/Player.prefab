@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51697784401153702}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1736482, y: -0, z: -0, w: 0.9848078}
-  m_LocalPosition: {x: 0, y: 5.4202013, z: -9.396926}
+  m_LocalRotation: {x: 0.17364818, y: -0, z: -0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 5.4202013, z: -9.396927}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -154,7 +154,7 @@ Rigidbody:
   m_GameObject: {fileID: 2079406966099398451}
   serializedVersion: 4
   m_Mass: 10
-  m_Drag: 10
+  m_Drag: 8
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -322,6 +322,8 @@ MonoBehaviour:
   _experienceEvent: {fileID: 11400000, guid: 8712925f532a73b4281483d04a67b3a6, type: 2}
   _hitEvent: {fileID: 11400000, guid: d44be3b33506dc343a1f86d78012e2dd, type: 2}
   _deathEvent: {fileID: 11400000, guid: a860cc1106240334aa6a4da0c019ca58, type: 2}
+  _levelUpEventChannel: {fileID: 11400000, guid: b7c471108d74fd840b18141618326d33,
+    type: 2}
   _maxHealth: 100
 --- !u!1 &3157428861886254642
 GameObject:
