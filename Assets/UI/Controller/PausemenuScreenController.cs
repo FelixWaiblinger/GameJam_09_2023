@@ -15,6 +15,7 @@ public class PausemenuScreenController : MonoBehaviour
     private void OnEnable() {
         PauseMenuScreen.OnResumeClicked += Resume;
         PauseMenuScreen.OnSettingsClicked += Resume;
+        PauseMenuScreen.OnMainMenuClicked += MainMenu;
         PauseMenuScreen.OnQuitClicked += Quit;
         _ShowPauseMenuScreenEventChannel.OnBoolEventRaised += ShowPauseMenu;
 
@@ -22,6 +23,7 @@ public class PausemenuScreenController : MonoBehaviour
     private void OnDisable() {
         PauseMenuScreen.OnResumeClicked -= Resume;
         PauseMenuScreen.OnSettingsClicked -= Resume;
+        PauseMenuScreen.OnMainMenuClicked -= MainMenu;
         PauseMenuScreen.OnQuitClicked -= Quit;
         _ShowPauseMenuScreenEventChannel.OnBoolEventRaised -= ShowPauseMenu;
     }
@@ -33,6 +35,10 @@ public class PausemenuScreenController : MonoBehaviour
     private void Resume() {
         _PauseEventChannel.RaiseBoolEvent(false);
     }
+
+    private void MainMenu() {
+    }
+
 
     private void Quit() {
         Application.Quit();

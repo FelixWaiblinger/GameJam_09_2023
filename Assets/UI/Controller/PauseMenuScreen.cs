@@ -8,6 +8,7 @@ public class PauseMenuScreen : UIScreen
 {
     public static event Action OnResumeClicked;
     public static event Action OnSettingsClicked;
+    public static event Action OnMainMenuClicked;
     public static event Action OnQuitClicked;
 
     [SerializeField] private Texture gameIcon;
@@ -51,17 +52,21 @@ public class PauseMenuScreen : UIScreen
         Button resumeBtn = Create<Button>();
         resumeBtn.text = "Resume";
         resumeBtn.RegisterCallback<ClickEvent>(v => OnResumeClicked?.Invoke());
+        menuButtons.Add(resumeBtn);
+
+        Button mainMenuBtn = Create<Button>();
+        mainMenuBtn.text = "Mainmenu";
+        mainMenuBtn.RegisterCallback<ClickEvent>(v => OnMainMenuClicked?.Invoke());
+        menuButtons.Add(mainMenuBtn);
 
         Button settingsBtn = Create<Button>();
         settingsBtn.text = "Settings";
         settingsBtn.RegisterCallback<ClickEvent>(v => OnSettingsClicked?.Invoke());
+        menuButtons.Add(settingsBtn);
 
         Button quitBtn = Create<Button>();
         quitBtn.text = "Quit";
         quitBtn.RegisterCallback<ClickEvent>(v => OnQuitClicked?.Invoke());
-
-        menuButtons.Add(resumeBtn);
-        menuButtons.Add(settingsBtn);
         menuButtons.Add(quitBtn);
 
         _screen.Add(container);
