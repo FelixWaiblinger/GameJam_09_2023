@@ -4,6 +4,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class HUDScreen : UIScreen
 {
@@ -82,7 +83,6 @@ public class HUDScreen : UIScreen
 
         UpdateSkills(new SkillInfo[] { info, info2 });
         _screen.Add(skillbar);
-
     }
 
     public override void ShowScreen() {
@@ -160,13 +160,22 @@ public class CircleCooldown: VisualElement {
         Painter2D painter = context.painter2D;
         painter.fillColor = new Color(100, 100, 100, 0.5f);
         painter.BeginPath();
-        painter.Arc(new Vector2(0, 0), Radius*2, 0, 360 - Mathf.Min(angle, 359), ArcDirection.CounterClockwise);
+        painter.Arc(new Vector2(0, 0), Radius, 0, 360 - Mathf.Min(angle, 359), ArcDirection.CounterClockwise);
         if (angle < 360) {
             painter.LineTo(new Vector2(0, 0));
         }
         painter.Fill();
 
-        //painter.LineTo(new Vector2(Radius*2, 0));
+
+        Vector2 point = GetPoint(Radius, Mathf.Round(angle));
+        Debug.Log(point);
+        Debug.Log("Distance " + Vector2.Distance(point, new Vector2(0, 0)));
+
+
+
+        //Debug.Log(asd(1, angle));
+
+        //painter.LineTo(new Vector2(Radius * 2, 0));
 
         //painter.MoveTo(new Vector2(50, 50));
         //painter.LineTo(new Vector2(-50, 50));
@@ -175,9 +184,25 @@ public class CircleCooldown: VisualElement {
         //painter.LineTo(new Vector2(50, 50));
         //painter.ClosePath();
         //painter.fillColor = Color.red;
-        //painter.Fill(FillRule.OddEven);
+        //painter.Fill(FillRule.NonZero);
     }
 
+    // Praise the gods! https://math.stackexchange.com/questions/2740317/simple-way-to-find-position-on-square-given-angle-at-center
+    private Vector2 GetPoint(float R, float angle) {
+
+        float alpha = angle - 90 * Mathf.Round((angle / 90));
+        Debug.Log("Alpha: " + alpha);
+
+        angle *= Mathf.Deg2Rad;
+        alpha *= Mathf.Deg2Rad; 
+       
+        float x = R * Mathf.Cos(angle) / Mathf.Cos(alpha);
+        float y = R * Mathf.Sin(angle) / Mathf.Cos(alpha);
+
+        return new Vector2(x, y);
+
+    }
+ 
     public void UpdateAngle(float angle) {
         this.angle = angle;
         this.MarkDirtyRepaint();
