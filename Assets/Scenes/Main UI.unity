@@ -664,7 +664,7 @@ MonoBehaviour:
   skillTreeSO: {fileID: 11400000, guid: bea003c9a15728342a7ff360a92bcead, type: 2}
   _levelUpEventChannel: {fileID: 11400000, guid: b7c471108d74fd840b18141618326d33,
     type: 2}
-  _skillPoints: 6
+  _skillPoints: 0
 --- !u!4 &841191084
 Transform:
   m_ObjectHideFlags: 0
@@ -1031,6 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadSceneChannel: {fileID: 11400000, guid: 0d03d33ae3117064ebf8d0d7befdac66, type: 2}
+  _pauseEventChannel: {fileID: 11400000, guid: bc8d6d31185482941ad51fa78f44b8e2, type: 2}
   gameData: {fileID: 11400000, guid: a581a4f6aa7bc014aaa3e38c513825a7, type: 2}
 --- !u!1 &1790027988
 GameObject:

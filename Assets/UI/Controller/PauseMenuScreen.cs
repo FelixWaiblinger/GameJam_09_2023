@@ -29,8 +29,6 @@ public class PauseMenuScreen : UIScreen
     }
 
     private void ShowScreen(bool shouldShow) {
-        Debug.Log("We are here" + shouldShow);
-
         if (shouldShow) {
             ShowScreen();
         } else {

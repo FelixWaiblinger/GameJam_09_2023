@@ -17,6 +17,6 @@ MonoBehaviour:
   Description: Throws a powerful fireball.
   Icon: {fileID: 2800000, guid: d31a1ad6a3f1d13498629061d7d845ac, type: 3}
   Cooldown: 2
-  Damage: 10
+  Damage: 15
   _projectile: {fileID: 5013911189566645348, guid: 06c2ca7235b5a74478c05f157358c071,
     type: 3}
