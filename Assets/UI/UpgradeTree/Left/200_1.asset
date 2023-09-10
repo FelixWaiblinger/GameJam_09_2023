@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30d04ee5442b3ee4aa066702e3459ae8, type: 3}
-  m_Name: 100_1
+  m_Name: 200_1
   m_EditorClassIdentifier: 
-  Identifier: 100_1
-  Name: Reduce Cooldowns
-  Description: Reduce your cooldowns by 50%
+  Identifier: 200_1
+  Name: Deal more damage
+  Description: Deal 10% more damage
   image: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
   Children:
-  - {fileID: 11400000, guid: 915ae2a53da588c47b4851fd278fa9e0, type: 2}
-  - {fileID: 11400000, guid: 050123c100aed0a4f9983ade647a5256, type: 2}
+  - {fileID: 11400000, guid: a3a005ccd95b8ec4ca6e31ebc85ca7d3, type: 2}
   statBuff:
-    type: 1
-    amount: 100
+    type: 0
+    amount: 10

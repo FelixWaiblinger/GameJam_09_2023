@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30d04ee5442b3ee4aa066702e3459ae8, type: 3}
-  m_Name: 300_1
+  m_Name: 200_1 4
   m_EditorClassIdentifier: 
-  Identifier: 300_1
-  Name: The Ultimatum
-  Description: This is a description
+  Identifier: 200_1 4
+  Name: Deal more damage
+  Description: Deal 10% more damage
   image: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
   Children: []
-  Effect: 50
+  statBuff:
+    type: 0
+    amount: 10

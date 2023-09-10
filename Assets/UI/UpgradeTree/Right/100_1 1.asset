@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 30d04ee5442b3ee4aa066702e3459ae8, type: 3}
-  m_Name: 200_1
+  m_Name: 100_1 1
   m_EditorClassIdentifier: 
-  Identifier: 200_1
-  Name: Go Stronger
-  Description: This is a description
+  Identifier: 100_1 1
+  Name: Reduce Cooldowns
+  Description: Reduce your cooldowns by 20%
   image: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
   Children:
-  - {fileID: 11400000, guid: 2b49c273e6c92bc4a80f4185a555355d, type: 2}
-  - {fileID: 11400000, guid: 742b434dfaccd444b86846830ff74ec2, type: 2}
-  Effect: 0
+  - {fileID: 11400000, guid: 56c16dd04e2c057408afd8792f628443, type: 2}
+  statBuff:
+    type: 1
+    amount: 25
