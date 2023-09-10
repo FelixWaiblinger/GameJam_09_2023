@@ -25,8 +25,8 @@ public class AbilityController : MonoBehaviour
 
     private Dictionary<Slot, Ability> _slots = new Dictionary<Slot, Ability>();
     private Dictionary<Slot, float> _cooldownTimers = new Dictionary<Slot, float>()
-        {
-        {Slot.Attack, 0},
+    {
+        { Slot.Attack, 0},
         { Slot.Primary, 0},
         { Slot.Secondary, 0}
     };
@@ -113,6 +113,7 @@ public class AbilityController : MonoBehaviour
 
     void Cast(Slot slot)
     {
+        Debug.Log(slot);
         if (_silenceTimer > 0) return;
 
         if (!TryAddCooldown(slot)) return;

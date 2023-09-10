@@ -74,7 +74,8 @@ public class SoundController : MonoBehaviour
     void PlayRandomSound(AudioClip[] clips)
     {
         _sources[_sourceIndex].clip = clips[Random.Range(0, clips.Length)];
-        _sources[_sourceIndex].pitch = Random.Range(0.8f, 1.4f);
+        _sources[_sourceIndex].pitch = Random.Range(0.95f, 1.3f);
+        _sources[_sourceIndex].volume = Random.Range(0.15f, 0.23f);
         _sources[_sourceIndex].Play();
         _sourceIndex = (_sourceIndex + 1) % _sources.Length;
     }
