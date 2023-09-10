@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-
     public static event Action<GameData> OnRunStarted;
 
     [SerializeField] private IntEventChannel loadSceneChannel;
+    [SerializeField] private BoolEventChannel _pauseEventChannel;
     [SerializeField] private GameData gameData;
 
     private void OnEnable() {
@@ -24,6 +24,7 @@ public class MainMenuController : MonoBehaviour
     }
 
     private void StartRun() {
+        _pauseEventChannel.RaiseBoolEvent(false);
         loadSceneChannel.RaiseIntEvent(SceneManager.GetActiveScene().buildIndex + 1);
         OnRunStarted?.Invoke(gameData);
     }

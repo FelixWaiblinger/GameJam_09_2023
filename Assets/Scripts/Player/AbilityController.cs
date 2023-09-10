@@ -40,20 +40,36 @@ public class AbilityController : MonoBehaviour
     {
         InputReader.mousePosEvent += FindTarget;
         InputReader.attackSlotEvent += Attack;
-        InputReader.primarySlotEvent += () => Cast(Slot.Primary);
-        InputReader.secondarySlotEvent += () => Cast(Slot.Secondary);
+        InputReader.primarySlotEvent += CastPrimary;
+        InputReader.secondarySlotEvent += CastSecondary;
         UpgradeScreenController.OnUpgradeLearned += OnUpgradeLearned;
 
-        _silenceEvent.OnFloatEventRaised += (duration) => _silenceTimer = duration;
+        _silenceEvent.OnFloatEventRaised += SilenceTimer;
     }
 
     void OnDisable()
     {
         InputReader.mousePosEvent -= FindTarget;
         InputReader.attackSlotEvent -= Attack;
-
+        InputReader.primarySlotEvent -= CastPrimary;
+        InputReader.secondarySlotEvent -= CastSecondary;
         UpgradeScreenController.OnUpgradeLearned -= OnUpgradeLearned;
+
+        _silenceEvent.OnFloatEventRaised -= SilenceTimer;
     }
+
+    private void CastPrimary() {
+        Cast(Slot.Primary);
+    }
+
+    private void CastSecondary() {
+        Cast(Slot.Secondary);
+    }
+
+    private void SilenceTimer(float duration) {
+        _silenceTimer = duration;
+    }
+
     
     void Start()
     {

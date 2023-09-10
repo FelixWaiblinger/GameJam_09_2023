@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using System.ComponentModel;
+using System.Reflection;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
 public class InputReader : ScriptableObject, GameInput.IGameControlsActions, GameInput.IUIInputsActions
@@ -57,16 +59,12 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions, Gam
 
 	void ClearSubscribers<T>(UnityAction<T> a)
 	{
-		if (a == null) return;
-		foreach (var e in a.GetInvocationList()) a -= (e as UnityAction<T>);
+		a = null;
 	}
 
-	void ClearSubscribers(UnityAction a)
-	{
-		if (a == null) return;
-		foreach (var e in a.GetInvocationList()) a -= (e as UnityAction);
+	void ClearSubscribers(UnityAction a) {
+		a = null;
 	}
-
 	#endregion
 
 	#region CALLBACKS

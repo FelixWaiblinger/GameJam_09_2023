@@ -15,13 +15,48 @@ public class AnimatorController : MonoBehaviour
     void OnEnable()
     {
         InputReader.moveEvent += (direction) => _moveDirection = new(direction.x, 0, direction.y);
-        InputReader.jumpEvent += () => _animator.SetTrigger("jump");
-        InputReader.dashEvent += () => _animator.SetTrigger("dash");
-        InputReader.attackSlotEvent += () => _animator.SetTrigger("attack");
+        InputReader.jumpEvent += Jump;
+        InputReader.dashEvent += Dash;
+        InputReader.attackSlotEvent += Attack;
 
-        _combatEvent.OnBoolEventRaised += (active) => _animator.SetBool("inCombat", active);
-        _hitEvent.OnVoidEventRaised += () => _animator.SetTrigger("hit");
-        _deathEvent.OnVoidEventRaised += () => { _animator.SetTrigger("death"); this.enabled = false; };
+        _combatEvent.OnBoolEventRaised += InCombat;
+        _hitEvent.OnVoidEventRaised += Hit;
+        _deathEvent.OnVoidEventRaised += Death;
+    }
+
+    private void OnDisable() {
+        InputReader.moveEvent -= (direction) => _moveDirection = new(direction.x, 0, direction.y);
+        InputReader.jumpEvent -= Jump;
+        InputReader.dashEvent -= Dash;
+        InputReader.attackSlotEvent -= Attack;
+
+        _combatEvent.OnBoolEventRaised -= InCombat;
+        _hitEvent.OnVoidEventRaised -= Hit;
+        _deathEvent.OnVoidEventRaised -= Death;
+    }
+
+    private void Jump() {
+        _animator.SetTrigger("jump");
+    }
+
+    private void Dash() {
+        _animator.SetTrigger("dash");
+    }
+
+    private void Attack() {
+        _animator.SetTrigger("attack");
+    }
+
+    private void InCombat(bool active) {
+        _animator.SetBool("inCombat", active);
+    }
+
+    private void Hit() {
+        _animator.SetTrigger("hit");
+    }
+
+    private void Death() {
+        { _animator.SetTrigger("death"); this.enabled = false; }
     }
 
     void Update()

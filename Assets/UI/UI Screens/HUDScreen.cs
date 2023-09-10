@@ -198,11 +198,6 @@ public class CircleCooldown: VisualElement {
 
         painter.Stroke();
 
-        Debug.Log(progressPoint);
-        Debug.Log("Distance " + Vector2.Distance(progressPoint, new Vector2(0, 0)));
-
-
-
         //Debug.Log(asd(1, angle));
 
         //painter.LineTo(new Vector2(Radius * 2, 0));
