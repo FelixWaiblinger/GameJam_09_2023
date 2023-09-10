@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51697784401153702}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17364818, y: -0, z: -0, w: 0.9848078}
-  m_LocalPosition: {x: 0, y: 5.4202013, z: -9.396927}
+  m_LocalRotation: {x: 0.1736482, y: -0, z: -0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 3.9001122, z: -5.2205153}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 2546718260711151090}
   - component: {fileID: 4724030415560063152}
   - component: {fileID: 6216562716283267621}
+  - component: {fileID: 8903513309895504841}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -136,8 +137,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.8000001, y: 1.8000001, z: 1.8000001}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3722081694212614559}
   - {fileID: 6675088005955339417}
@@ -234,8 +235,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _walkSpeed: 1.7
-  _sprintSpeed: 2.8
+  _walkSpeed: 2
+  _sprintSpeed: 3
   _dashSpeed: 200
   _dashDuration: 0.02
   _dashCooldown: 3
@@ -324,6 +325,40 @@ MonoBehaviour:
   _levelUpEventChannel: {fileID: 11400000, guid: b7c471108d74fd840b18141618326d33,
     type: 2}
   _maxHealth: 100
+--- !u!114 &8903513309895504841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079406966099398451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f63a1b610d217b478f5cfa6125d0518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stepSounds:
+  - {fileID: 8300000, guid: 99f42592e7d12ae4fbdf9bc1a6bcb6fd, type: 3}
+  - {fileID: 8300000, guid: 5f6c1956c4863304e8e7a286aeb4028a, type: 3}
+  - {fileID: 8300000, guid: c590d83ce745f7e4da3ec9b9e46cfee0, type: 3}
+  - {fileID: 8300000, guid: 0cd8f8a10c48e264da2a6e5b4549c757, type: 3}
+  - {fileID: 8300000, guid: cdc5fe2924a3957468a85638c31f5d7e, type: 3}
+  - {fileID: 8300000, guid: 0175dd86bea174946a020a8e97e9780c, type: 3}
+  _attackSounds:
+  - {fileID: 8300000, guid: 160fdb708b67b05499c4006d10440d65, type: 3}
+  - {fileID: 8300000, guid: 4e1ec86f75e9f8f41b80a74eb11cb065, type: 3}
+  - {fileID: 8300000, guid: 047380699c115e349983d0e3bce6272d, type: 3}
+  - {fileID: 8300000, guid: 4741b8ecf82806e408cfdd12fce6a3d8, type: 3}
+  _jumpSounds:
+  - {fileID: 8300000, guid: 4f1d2b4c55bf8bb4d9558c32624de410, type: 3}
+  - {fileID: 8300000, guid: 28c598a545d4f8e43bb287629ea034c3, type: 3}
+  - {fileID: 8300000, guid: 51035cde34a48ab4e9d8f5e1930a5278, type: 3}
+  - {fileID: 8300000, guid: c13c004cdc5cf4e43b25e4d88df203b2, type: 3}
+  - {fileID: 8300000, guid: e6e0b89d00811244da900c943c19b487, type: 3}
+  _concurrentSounds: 3
+  _stepCD: 2.5
+  _jumpCD: 1
+  _attackCD: 0.5
 --- !u!1 &3157428861886254642
 GameObject:
   m_ObjectHideFlags: 0

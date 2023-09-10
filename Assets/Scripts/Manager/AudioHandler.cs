@@ -38,12 +38,4 @@ public class AudioHandler : MonoBehaviour
         _musicPlayer.loop = theme.Loop;
         _musicPlayer?.Play();
     }
-
-    // public void PlayRandomPitch(string name)
-    // {
-        // Sound s = Array.Find(sounds, sound => sound.name == name);
-        // s.source.pitch = UnityEngine.Random.Range(.6f, 1.4f);
-        // s.source.Play();
-    // }
-
 }

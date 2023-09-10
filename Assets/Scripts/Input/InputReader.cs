@@ -32,6 +32,22 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 		EnableInput();
 	}
 
+	public void ClearSubscribers()
+	{
+		foreach (var e in moveEvent.GetInvocationList()) moveEvent -= (e as UnityAction<Vector2>);
+		foreach (var e in lookEvent.GetInvocationList()) lookEvent -= (e as UnityAction<Vector2>);
+		foreach (var e in mousePosEvent.GetInvocationList()) mousePosEvent -= (e as UnityAction<Vector2>);
+		foreach (var e in zoomEvent.GetInvocationList()) zoomEvent -= (e as UnityAction<float>);
+		foreach (var e in sprintEvent.GetInvocationList()) sprintEvent -= (e as UnityAction<bool>);
+		foreach (var e in panEvent.GetInvocationList()) panEvent -= (e as UnityAction<bool>);
+		foreach (var e in dashEvent.GetInvocationList()) dashEvent -= (e as UnityAction);
+		foreach (var e in jumpEvent.GetInvocationList()) jumpEvent -= (e as UnityAction);
+		foreach (var e in attackSlotEvent.GetInvocationList()) attackSlotEvent -= (e as UnityAction);
+		foreach (var e in primarySlotEvent.GetInvocationList()) primarySlotEvent -= (e as UnityAction);
+		foreach (var e in secondarySlotEvent.GetInvocationList()) secondarySlotEvent -= (e as UnityAction);
+		foreach (var e in cancelEvent.GetInvocationList()) cancelEvent -= (e as UnityAction);
+	}
+
 	#region CALLBACKS
 
 	// move player (wasd)

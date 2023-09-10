@@ -27,7 +27,6 @@ public class GameHandler : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Changing music");
         _musicEvent.RaiseStringEvent("Game");
     }
 

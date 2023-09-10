@@ -20,11 +20,17 @@ public class InputHandler : MonoBehaviour
 
     void OnEnable()
     {
-        SceneManager.sceneLoaded += (_, _) => _input.InitGameInput();
+        SceneManager.sceneLoaded += SceneChanged;
     }
 
     void OnDisable()
     {
-        
+        SceneManager.sceneLoaded -= SceneChanged;
+    }
+
+    void SceneChanged(Scene _, LoadSceneMode __)
+    {
+        _input.ClearSubscribers();
+        _input.InitGameInput();
     }
 }
