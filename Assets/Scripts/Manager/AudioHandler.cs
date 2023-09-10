@@ -31,7 +31,11 @@ public class AudioHandler : MonoBehaviour
 
     public void PlayTheme(string name)
     {
-        var theme = Array.Find<AudioData>(_music, audio => audio.Name == name);
+        AudioData theme = Array.Find<AudioData>(_music, audio => audio.Name == name);
+        if(theme == null) {
+            Debug.Log("Audio null");
+            return;
+        }
         _musicPlayer.clip = theme.Clip;
         _musicPlayer.volume = theme.Volume;
         _musicPlayer.pitch = theme.Pitch;
