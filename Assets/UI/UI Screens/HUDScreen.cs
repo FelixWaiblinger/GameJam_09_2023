@@ -59,11 +59,13 @@ public class HUDScreen : UIScreen
         }
     }
     private void UpdateSkills(GameData gameData) {
+        SkillInfo info0 = new SkillInfo(0, gameData.Attack);
         SkillInfo info1 = new SkillInfo(0, gameData.Primary);
         SkillInfo info2 = new SkillInfo(0, gameData.Secondary);
 
+
         _screen.Remove(skillbar);
-        skillbar = new SkillBar(new SkillInfo[] { info1, info2 }, this.backgroundSprite);
+        skillbar = new SkillBar(new SkillInfo[] { info0, info1, info2 }, this.backgroundSprite);
         _screen.Add(skillbar);
     }
 
@@ -118,7 +120,7 @@ public class UISkill : VisualElement{
         circleCoolDown = new CircleCooldown();
         image.style.position = Position.Absolute;
         
-        circleCoolDown.Radius = 40;
+        circleCoolDown.Radius = 30;
         circleCoolDown.style.rotate = new StyleRotate(new Rotate(-90));
 
         Add(circleCoolDown);

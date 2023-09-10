@@ -12,6 +12,7 @@ public class MissileProjectile : Projectile
     private float _currentTime = 0;
 
     private void Start() {
+        _audioSource = GetComponent<AudioSource>();
         _audioSource.pitch = Random.Range(0.85f, 1.2f);
         _audioSource.volume = Random.Range(0.05f, 0.08f);
     }
