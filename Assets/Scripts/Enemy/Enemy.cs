@@ -74,7 +74,7 @@ public class Enemy : MonoBehaviour, IDamagable
             Quaternion.LookRotation(_playerTarget.position - transform.position),
             10
         );
-        
+
         if (_attackCooldown > 0) return;
 
         _animator.SetTrigger("attack");
