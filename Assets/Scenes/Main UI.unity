@@ -190,6 +190,7 @@ MonoBehaviour:
     type: 2}
   _timeScaleEventChannel: {fileID: 11400000, guid: 164eee8a26e19ee44ba845266fbae6f9,
     type: 2}
+  _inputReader: {fileID: 11400000, guid: f50c7c303448f6b4daf2e7323f02d998, type: 2}
 --- !u!114 &58218835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,11 +1259,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70b68227995a3042a6ba3e4acb9380e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainUI: {fileID: 0}
+  mainUI: {fileID: 1790027991}
   _ShowPauseMenuScreenEventChannel: {fileID: 11400000, guid: ed45469851490a844890560b7b0276db,
     type: 2}
   _PauseEventChannel: {fileID: 11400000, guid: bc8d6d31185482941ad51fa78f44b8e2, type: 2}
   _loadSceneChannel: {fileID: 11400000, guid: 0d03d33ae3117064ebf8d0d7befdac66, type: 2}
+  _inputReader: {fileID: 11400000, guid: f50c7c303448f6b4daf2e7323f02d998, type: 2}
 --- !u!1001 &8277707740840595216
 PrefabInstance:
   m_ObjectHideFlags: 0

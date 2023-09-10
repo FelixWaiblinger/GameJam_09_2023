@@ -9,16 +9,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8983983624947433145}
-  - component: {fileID: -1586217114673217636}
+  - component: {fileID: -3562989181528827072}
   - component: {fileID: 5082176446065128347}
-  - component: {fileID: 5384705357478675831}
+  - component: {fileID: 7721098481894298105}
   - component: {fileID: 1507923674573640581}
   - component: {fileID: 2187466898138415047}
   - component: {fileID: 2823311701526907165}
   - component: {fileID: 8351546834652247060}
-  - component: {fileID: 8267399591178596858}
+  - component: {fileID: -2549280951544681945}
   m_Layer: 0
-  m_Name: Inferno
+  m_Name: Meteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,13 +34,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5073883878702061744}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &-1586217114673217636
+--- !u!54 &-3562989181528827072
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,7 +50,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 0.0000001
   m_Drag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -77,18 +77,18 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 56
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.36
   m_Center: {x: 0, y: 0, z: 0}
---- !u!82 &5384705357478675831
+--- !u!82 &7721098481894298105
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,7 +100,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 673f377e3c5db03428758622e3530725, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5131,7 +5131,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &8267399591178596858
+--- !u!114 &-2549280951544681945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5140,7 +5140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5370579922864142465}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b84b6d065843b643a16f12733b4ddfe, type: 3}
+  m_Script: {fileID: 11500000, guid: f4e250970f2abd24fbc68c3020b08995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damagables:
@@ -5149,10 +5149,9 @@ MonoBehaviour:
   _breaking:
     serializedVersion: 2
     m_Bits: 128
-  _explosion: {fileID: 8423897752571412308, guid: 87267071d7ec8f5419a592605daf4afe,
+  _explosion: {fileID: 8423897752571412308, guid: f5826d14c1843954ca1b6934f3a8b614,
     type: 3}
-  _offsetMultiplier: 2
-  _duration: 1
+  _speed: 20
 --- !u!1 &8233685298055392666
 GameObject:
   m_ObjectHideFlags: 0

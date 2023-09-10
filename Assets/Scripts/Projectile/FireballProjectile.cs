@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ball : Projectile
+public class FireballProjectile : Projectile
 {
     [SerializeField] private BOOM _explosion;
     [SerializeField] private float _speed;

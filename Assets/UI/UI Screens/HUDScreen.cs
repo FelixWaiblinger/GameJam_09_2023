@@ -62,17 +62,12 @@ public class HUDScreen : UIScreen
         SkillInfo info1 = new SkillInfo(0, gameData.Primary);
         SkillInfo info2 = new SkillInfo(0, gameData.Secondary);
 
-        Debug.Log("Was here");
-
         _screen.Remove(skillbar);
         skillbar = new SkillBar(new SkillInfo[] { info1, info2 }, this.backgroundSprite);
         _screen.Add(skillbar);
     }
 
     private void GenerateUI() {
-        Label label = Create<Label>();
-        label.text = "This is ingame!";
-        _screen.Add(label);
 
         skillbar = new SkillBar(new SkillInfo[] { }, this.backgroundSprite);
         _screen.Add(skillbar);
