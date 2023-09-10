@@ -20,8 +20,9 @@ public class Ball : Projectile
         _travelDistance += distance;
     }
 
-    public override void Init(Transform target)
-    {
+    public override void Init(Transform target, float dmg)
+    {   
+        _damage = dmg;
         _targetDirection = Vector3.Scale(target.position - transform.position, ignoreY).normalized;
     }
 }

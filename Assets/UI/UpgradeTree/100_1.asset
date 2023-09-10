@@ -19,4 +19,6 @@ MonoBehaviour:
   Children:
   - {fileID: 11400000, guid: 915ae2a53da588c47b4851fd278fa9e0, type: 2}
   - {fileID: 11400000, guid: 5e42ea7c3aef6c7469fa495c847668f4, type: 2}
-  Effect: 0
+  statBuff:
+    type: 1
+    amount: 500

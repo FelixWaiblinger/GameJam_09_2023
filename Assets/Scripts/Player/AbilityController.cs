@@ -31,14 +31,6 @@ public class AbilityController : MonoBehaviour
         { Slot.Secondary, 0}
     };
 
-    private Dictionary<Slot, float> _cooldownMultipliers = new Dictionary<Slot, float>()
-    {
-        {Slot.Attack, 1},
-        {Slot.Primary, 1},
-        {Slot.Secondary, 1},
-        {Slot.All, 1}
-    };
-
     private StatsController statsController = new StatsController();
 
 
@@ -99,7 +91,7 @@ public class AbilityController : MonoBehaviour
     {
         if (!TryAddCooldown(Slot.Attack)) return;
 
-        _slots[Slot.Attack].Activate(_abilityOrigin, _target);
+        _slots[Slot.Attack].Activate(_abilityOrigin, _target, this.statsController.GetFinalMultiplier(StatType.Attack));
         _combatEvent.RaiseBoolEvent(true);
     }
 
@@ -109,7 +101,7 @@ public class AbilityController : MonoBehaviour
 
         if (!TryAddCooldown(slot)) return;
 
-        _slots[slot].Activate(_abilityOrigin, _target);
+        _slots[slot].Activate(_abilityOrigin, _target, this.statsController.GetFinalMultiplier(StatType.Attack));
         _combatEvent.RaiseBoolEvent(true);
     }
 
@@ -130,14 +122,16 @@ public class AbilityController : MonoBehaviour
         statsController.ProcessUpgradeLearned(node);
     }
 
-
     void UpdateTimers()
     {
         foreach (Slot s in _slots.Keys)
         {
             if (_cooldownTimers[s] < 0) continue;
             _cooldownTimers[s] -= Time.deltaTime;
-            _skillInfoEvent.RaiseSkillInfoEvent(new SkillInfo(_cooldownTimers[s], _slots[s]));
+
+            SkillInfo info = new SkillInfo(_cooldownTimers[s], _slots[s]);
+            info.MaxCooldown *= (1 / this.statsController.GetFinalMultiplier(StatType.Cooldown));
+            _skillInfoEvent.RaiseSkillInfoEvent(info);
         }
 
         if (_silenceTimer > 0) _silenceTimer -= Time.deltaTime;

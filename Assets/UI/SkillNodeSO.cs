@@ -13,6 +13,7 @@ public class SkillNodeSO : ScriptableObject {
     [SerializeField] public List<SkillNodeSO> Children;
     [SerializeField] public StatBuff statBuff;
 
+    [Serializable]
     public struct StatBuff
     {
         public StatType type;
