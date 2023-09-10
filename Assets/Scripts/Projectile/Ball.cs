@@ -39,8 +39,9 @@ public class Ball : Projectile
         Destroy(gameObject);
     }
 
-    public override void Init(Transform target)
+    public override void Init(Transform target, float dmg)
     {
         _targetDirection = Vector3.Scale(target.position - transform.position, ignoreY).normalized;
+        _damage = dmg;
     }
 }

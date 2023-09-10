@@ -7,10 +7,10 @@ public class Fireball : Ability
 
     public override void Activate(Transform origin, Transform target, float dmgMultiplier)
     {
-        ChannelBall(origin, target);
+        ChannelBall(origin, target, dmgMultiplier);
     }
 
-    async void ChannelBall(Transform origin, Transform target)
+    async void ChannelBall(Transform origin, Transform target, float dmgMultiplier)
     {
         if (!target) return;
             
