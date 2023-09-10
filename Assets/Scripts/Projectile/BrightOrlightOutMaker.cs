@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BOOM : MonoBehaviour
 {
-
+    [SerializeField] private AudioSource _audioSource;
     private Light _light;
     private float _initialIntensity, _targetIntensity, _changeDuration, _intensityChangeRate;
 
@@ -18,6 +18,8 @@ public class BOOM : MonoBehaviour
         _changeDuration = .3f;
         _light.intensity = _targetIntensity;
         _intensityChangeRate = (_initialIntensity-_targetIntensity) / _changeDuration;
+
+        _audioSource.pitch = Random.Range(0.75f, 1f);
 
         StartCoroutine(DecreaseIntensityOverTime());
 
