@@ -21,7 +21,7 @@ public class UpgradeTree
 
     private void FillDictonary(SkillNodeSO node, UpgradeNode parent) {
 
-        UpgradeNode upgrade = new UpgradeNode(parent, null , node.name, node.Description, node.Identifier, node.Effect);
+        UpgradeNode upgrade = new UpgradeNode(parent, null , node.name, node.Description, node.Identifier, node.statBuff);
         keyValuePairs.Add(node.Identifier, upgrade);
 
         if (parent != null) {

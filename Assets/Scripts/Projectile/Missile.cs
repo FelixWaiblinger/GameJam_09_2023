@@ -58,8 +58,9 @@ public class Missile : Projectile
 		return point;
 	}
 
-    public override void Init(Transform target)
+    public override void Init(Transform target, float dmg)
     {
+        this._damage = dmg;
         _target = target;
         _origin = transform.position - 1.5f * transform.forward;
 

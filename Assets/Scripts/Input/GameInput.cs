@@ -143,6 +143,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UpgradeMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd649bf6-678b-4d1d-a258-15971d19f5aa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -365,6 +374,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7c7882c0-eab7-48b1-9617-036a2ada470e"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseKeyboard"",
+                    ""action"": ""UpgradeMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -403,6 +423,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_GameControls_SecondarySlot = m_GameControls.FindAction("SecondarySlot", throwIfNotFound: true);
         m_GameControls_Cancel = m_GameControls.FindAction("Cancel", throwIfNotFound: true);
         m_GameControls_Pause = m_GameControls.FindAction("Pause", throwIfNotFound: true);
+        m_GameControls_UpgradeMenu = m_GameControls.FindAction("UpgradeMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -477,6 +498,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameControls_SecondarySlot;
     private readonly InputAction m_GameControls_Cancel;
     private readonly InputAction m_GameControls_Pause;
+    private readonly InputAction m_GameControls_UpgradeMenu;
     public struct GameControlsActions
     {
         private @GameInput m_Wrapper;
@@ -494,6 +516,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @SecondarySlot => m_Wrapper.m_GameControls_SecondarySlot;
         public InputAction @Cancel => m_Wrapper.m_GameControls_Cancel;
         public InputAction @Pause => m_Wrapper.m_GameControls_Pause;
+        public InputAction @UpgradeMenu => m_Wrapper.m_GameControls_UpgradeMenu;
         public InputActionMap Get() { return m_Wrapper.m_GameControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -542,6 +565,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @UpgradeMenu.started += instance.OnUpgradeMenu;
+            @UpgradeMenu.performed += instance.OnUpgradeMenu;
+            @UpgradeMenu.canceled += instance.OnUpgradeMenu;
         }
 
         private void UnregisterCallbacks(IGameControlsActions instance)
@@ -585,6 +611,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @UpgradeMenu.started -= instance.OnUpgradeMenu;
+            @UpgradeMenu.performed -= instance.OnUpgradeMenu;
+            @UpgradeMenu.canceled -= instance.OnUpgradeMenu;
         }
 
         public void RemoveCallbacks(IGameControlsActions instance)
@@ -626,5 +655,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnSecondarySlot(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnUpgradeMenu(InputAction.CallbackContext context);
     }
 }

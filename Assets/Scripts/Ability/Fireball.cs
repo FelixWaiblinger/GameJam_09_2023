@@ -5,7 +5,7 @@ public class Fireball : Ability
 {
     [SerializeField] private Projectile _projectile;
 
-    public override void Activate(Transform origin, Transform target)
+    public override void Activate(Transform origin, Transform target, float dmgMultiplier)
     {
         ChannelBall(origin, target);
     }
@@ -17,6 +17,6 @@ public class Fireball : Ability
         await System.Threading.Tasks.Task.Delay(600);
 
         var p = Instantiate(_projectile, origin.position, origin.rotation);
-        p.Init(target);
+        p.Init(target, Damage * dmgMultiplier);
     }
 }

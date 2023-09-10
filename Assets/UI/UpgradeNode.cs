@@ -11,11 +11,11 @@ public class UpgradeNode
     public string Name { get; private set; }
     public string Description { get; private set; }
     public string Identifier { get; private set; }
-    public int Effect { get; private set; }
+    public SkillNodeSO.StatBuff Effect { get; private set; }
 
     public bool IsSkilled = false;
 
-    public UpgradeNode(UpgradeNode preRequirement, List<UpgradeNode> children, string name, string description, string identifier, int effect) {
+    public UpgradeNode(UpgradeNode preRequirement, List<UpgradeNode> children, string name, string description, string identifier, SkillNodeSO.StatBuff effect) {
         PreRequirement = preRequirement;
         if(children != null) {
             _children.AddRange(children);

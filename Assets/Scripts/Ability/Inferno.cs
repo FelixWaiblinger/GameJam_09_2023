@@ -8,11 +8,10 @@ public class Inferno : Ability
     [SerializeField] private float _detectionRadius;
     [SerializeField] private LayerMask _targetLayer;
 
-    public override void Activate(Transform origin, Transform target)
+    public override void Activate(Transform origin, Transform target, float dmgMultiplier)
     {
         if (!FindEnemy(origin.position, out Transform enemy)) return;
-
-        CreateMissiles(origin, enemy);
+        CreateMissiles(origin, enemy, Damage * dmgMultiplier);
     }
 
     bool FindEnemy(Vector3 origin, out Transform enemy)
@@ -41,14 +40,14 @@ public class Inferno : Ability
         return true;
     }
 
-    async void CreateMissiles(Transform origin, Transform target)
+    async void CreateMissiles(Transform origin, Transform target, float dmg)
     {
         for (int i = 0; i < _projectileNumber; i++)
         {
             if (!target) return;
             
             var p = Instantiate(_projectile, origin.position, origin.rotation);
-            p.Init(target);
+            p.Init(target, dmg);
             await System.Threading.Tasks.Task.Delay(100);
         }
     }

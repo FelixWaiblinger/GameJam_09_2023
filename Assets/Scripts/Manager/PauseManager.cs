@@ -8,6 +8,7 @@ public class PauseManager : MonoBehaviour
 
     [SerializeField] private BoolEventChannel _pauseEventChannel;
     [SerializeField] private BoolEventChannel _showPauseMenuEventChannel;
+    [SerializeField] private FloatEventChannel _timeScaleEventChannel;
 
     private void OnEnable() {
         InputReader.pauseEvent += OnPauseInput;
@@ -23,6 +24,7 @@ public class PauseManager : MonoBehaviour
         isPaused = IsPaused;
         // Do stuff when we pause the game
         _showPauseMenuEventChannel.RaiseBoolEvent(isPaused);
+        _timeScaleEventChannel.RaiseFloatEvent(isPaused ? 0 : 1);
     }
 
     private void OnPauseInput() {

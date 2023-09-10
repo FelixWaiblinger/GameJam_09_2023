@@ -7,6 +7,7 @@ public abstract class Ability : ScriptableObject
     public string Description;
     public Texture Icon;
     public float Cooldown;
+    public float Damage;
 
-    public abstract void Activate(Transform origin, Transform target);
+    public abstract void Activate(Transform origin, Transform target, float dmgMultiplier);
 }

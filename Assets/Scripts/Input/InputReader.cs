@@ -18,6 +18,7 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 	public static UnityAction secondarySlotEvent;
 	public static UnityAction cancelEvent;
 	public static UnityAction pauseEvent;
+	public static UnityAction upgradeMenuEvent;
 
 	private GameInput gameInput;
 
@@ -142,11 +143,16 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 			pauseEvent?.Invoke();
 	}
 
-	#endregion
+    public void OnUpgradeMenu(InputAction.CallbackContext context) {
+        if (context.phase == InputActionPhase.Performed)
+            upgradeMenuEvent?.Invoke();
+    }
 
-	#region SWITCH INPUT
+    #endregion
 
-	public void EnableInput()
+    #region SWITCH INPUT
+
+    public void EnableInput()
 	{
 		gameInput.GameControls.Enable();
 	}
