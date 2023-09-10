@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class MainUI : MonoBehaviour
@@ -16,14 +17,39 @@ public class MainUI : MonoBehaviour
     [SerializeField] private HUDScreen _hudScreen;
     [SerializeField] private PauseMenuScreen _pauseMenuScreen;
 
+    [SerializeField] private UpgradeScreenController _upgradeScreenController;
+
+    private static MainUI Instance;
+
+    public void NewInit() {
+        SetVisualElements();
+        _upgradeScreenController.Start();
+        ShowScreen(UIScreens.MainMenu);
+    }
+
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(this.gameObject);
+            return;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        SetVisualElements();
-        ShowScreen(currentScreen);
+        NewInit();
+    }
+
+    private void OnSceneLoad(Scene scene, LoadSceneMode mode) {
+        if (scene.buildIndex == 1) {
+            NewInit();
+        }
     }
 
     private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoad;
         MainMenuController.OnRunStarted += ShowHUD;
         InputReader.upgradeMenuEvent += ToggleUpgradeMenu;
     }
@@ -41,6 +67,7 @@ public class MainUI : MonoBehaviour
     }
 
     private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoad;
         MainMenuController.OnRunStarted -= ShowHUD;
         InputReader.upgradeMenuEvent -= ToggleUpgradeMenu;
     }
@@ -89,6 +116,8 @@ public class MainUI : MonoBehaviour
         root.styleSheets.Add(_styleSheet);
 
         root.Add(_upgradeScreen.GetVisualElement());
+        _upgradeScreen.InitUI();
+
         root.Add(_mainMenuScreen.GetVisualElement());
         root.Add(_hudScreen.GetVisualElement());
         root.Add(_pauseMenuScreen.GetVisualElement());

@@ -14,7 +14,8 @@ public class UpgradeScreenController : MonoBehaviour
 
     private UpgradeTree _tree;
 
-    void Start() {
+    public void Start() {
+        _skillPoints = 1;
         _tree = new UpgradeTree(skillTreeSO.GetSkillTree());
     }
 

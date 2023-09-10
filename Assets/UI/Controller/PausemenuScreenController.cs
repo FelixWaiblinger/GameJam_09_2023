@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PausemenuScreenController : MonoBehaviour
 {
-
+    [SerializeField] private MainUI mainUI;
     public static event Action<bool> OnPauseStatusChanged;
 
     [SerializeField] private BoolEventChannel _ShowPauseMenuScreenEventChannel;
     [SerializeField] private BoolEventChannel _PauseEventChannel;
+    [SerializeField] private IntEventChannel _loadSceneChannel;
+
 
     private void OnEnable() {
         PauseMenuScreen.OnResumeClicked += Resume;
@@ -37,7 +40,9 @@ public class PausemenuScreenController : MonoBehaviour
     }
 
     private void MainMenu() {
+        _loadSceneChannel.RaiseIntEvent(1);
     }
+
 
 
     private void Quit() {
