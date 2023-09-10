@@ -5,10 +5,17 @@ public class MissileProjectile : Projectile
     [SerializeField] private BOOM _explosion;
     [SerializeField] private float _offsetMultiplier = 1;
     [SerializeField] private float _duration = 1.5f;
+    [SerializeField] private AudioSource _audioSource;
 
     private Transform _target = null;
     private Vector3 _origin, _controlPoint, _targetPosition;
     private float _currentTime = 0;
+
+    private void Start() {
+        _audioSource = GetComponent<AudioSource>();
+        _audioSource.pitch = Random.Range(0.85f, 1.2f);
+        _audioSource.volume = Random.Range(0.05f, 0.08f);
+    }
 
     void OnTriggerEnter(Collider other)
     {

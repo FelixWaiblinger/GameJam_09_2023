@@ -21,13 +21,6 @@ public class StatusController : MonoBehaviour, IDamagable
         _enemyDeathEvent.OnVoidEventRaised += () => AddExp(5);
         AddExp(0);
     }
-
-
-    private void Update() {
-        AddExp(1);
-    }
-
-
     void Start()
     {
         _currentHealth = _maxHealth;
