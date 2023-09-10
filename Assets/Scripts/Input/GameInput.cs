@@ -134,24 +134,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""4f070767-68f9-4045-982a-d3fb0af06fc9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""UpgradeMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""fd649bf6-678b-4d1d-a258-15971d19f5aa"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -289,17 +271,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f7383f83-ef0d-4ccc-924e-3c63228626b9"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""MouseKeyboard"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""fc9c53a0-9121-47fa-90f4-23e5a5800ae1"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": ""Hold(duration=0.001)"",
@@ -374,15 +345,52 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""UI Inputs"",
+            ""id"": ""7982bda7-88c0-4c96-a24f-5826909578ab"",
+            ""actions"": [
+                {
+                    ""name"": ""UpgradeMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""415111fa-18ed-47ff-826e-1246e6e4c9d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""72f45a77-afe1-4cc7-850d-0b65aa31f493"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""7c7882c0-eab7-48b1-9617-036a2ada470e"",
+                    ""id"": ""ef9b96b5-7a60-4429-a5b0-a5f40dd2bd32"",
                     ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""MouseKeyboard"",
                     ""action"": ""UpgradeMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9d3b0f9-288e-44c6-82cf-1a5b419e6f28"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseKeyboard"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -422,8 +430,10 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_GameControls_PrimarySlot = m_GameControls.FindAction("PrimarySlot", throwIfNotFound: true);
         m_GameControls_SecondarySlot = m_GameControls.FindAction("SecondarySlot", throwIfNotFound: true);
         m_GameControls_Cancel = m_GameControls.FindAction("Cancel", throwIfNotFound: true);
-        m_GameControls_Pause = m_GameControls.FindAction("Pause", throwIfNotFound: true);
-        m_GameControls_UpgradeMenu = m_GameControls.FindAction("UpgradeMenu", throwIfNotFound: true);
+        // UI Inputs
+        m_UIInputs = asset.FindActionMap("UI Inputs", throwIfNotFound: true);
+        m_UIInputs_UpgradeMenu = m_UIInputs.FindAction("UpgradeMenu", throwIfNotFound: true);
+        m_UIInputs_Pause = m_UIInputs.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -497,8 +507,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameControls_PrimarySlot;
     private readonly InputAction m_GameControls_SecondarySlot;
     private readonly InputAction m_GameControls_Cancel;
-    private readonly InputAction m_GameControls_Pause;
-    private readonly InputAction m_GameControls_UpgradeMenu;
     public struct GameControlsActions
     {
         private @GameInput m_Wrapper;
@@ -515,8 +523,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @PrimarySlot => m_Wrapper.m_GameControls_PrimarySlot;
         public InputAction @SecondarySlot => m_Wrapper.m_GameControls_SecondarySlot;
         public InputAction @Cancel => m_Wrapper.m_GameControls_Cancel;
-        public InputAction @Pause => m_Wrapper.m_GameControls_Pause;
-        public InputAction @UpgradeMenu => m_Wrapper.m_GameControls_UpgradeMenu;
         public InputActionMap Get() { return m_Wrapper.m_GameControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -562,12 +568,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
-            @UpgradeMenu.started += instance.OnUpgradeMenu;
-            @UpgradeMenu.performed += instance.OnUpgradeMenu;
-            @UpgradeMenu.canceled += instance.OnUpgradeMenu;
         }
 
         private void UnregisterCallbacks(IGameControlsActions instance)
@@ -608,12 +608,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
-            @UpgradeMenu.started -= instance.OnUpgradeMenu;
-            @UpgradeMenu.performed -= instance.OnUpgradeMenu;
-            @UpgradeMenu.canceled -= instance.OnUpgradeMenu;
         }
 
         public void RemoveCallbacks(IGameControlsActions instance)
@@ -631,6 +625,60 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         }
     }
     public GameControlsActions @GameControls => new GameControlsActions(this);
+
+    // UI Inputs
+    private readonly InputActionMap m_UIInputs;
+    private List<IUIInputsActions> m_UIInputsActionsCallbackInterfaces = new List<IUIInputsActions>();
+    private readonly InputAction m_UIInputs_UpgradeMenu;
+    private readonly InputAction m_UIInputs_Pause;
+    public struct UIInputsActions
+    {
+        private @GameInput m_Wrapper;
+        public UIInputsActions(@GameInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @UpgradeMenu => m_Wrapper.m_UIInputs_UpgradeMenu;
+        public InputAction @Pause => m_Wrapper.m_UIInputs_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_UIInputs; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIInputsActions set) { return set.Get(); }
+        public void AddCallbacks(IUIInputsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIInputsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIInputsActionsCallbackInterfaces.Add(instance);
+            @UpgradeMenu.started += instance.OnUpgradeMenu;
+            @UpgradeMenu.performed += instance.OnUpgradeMenu;
+            @UpgradeMenu.canceled += instance.OnUpgradeMenu;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+        }
+
+        private void UnregisterCallbacks(IUIInputsActions instance)
+        {
+            @UpgradeMenu.started -= instance.OnUpgradeMenu;
+            @UpgradeMenu.performed -= instance.OnUpgradeMenu;
+            @UpgradeMenu.canceled -= instance.OnUpgradeMenu;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+        }
+
+        public void RemoveCallbacks(IUIInputsActions instance)
+        {
+            if (m_Wrapper.m_UIInputsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIInputsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIInputsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIInputsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIInputsActions @UIInputs => new UIInputsActions(this);
     private int m_MouseKeyboardSchemeIndex = -1;
     public InputControlScheme MouseKeyboardScheme
     {
@@ -654,7 +702,10 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnPrimarySlot(InputAction.CallbackContext context);
         void OnSecondarySlot(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
+    }
+    public interface IUIInputsActions
+    {
         void OnUpgradeMenu(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
