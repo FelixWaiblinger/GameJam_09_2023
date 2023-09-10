@@ -246,6 +246,7 @@ MonoBehaviour:
   _musicEvent: {fileID: 11400000, guid: c1b86eb8ea6400c44a6a05882f35e40f, type: 2}
   _music:
   - {fileID: 11400000, guid: 9d91497c24624cc44b94177d79ed8ce0, type: 2}
+  - {fileID: 11400000, guid: c5290311996d52a4dbd9ee82a85c51c2, type: 2}
 --- !u!82 &426097180
 AudioSource:
   m_ObjectHideFlags: 0
