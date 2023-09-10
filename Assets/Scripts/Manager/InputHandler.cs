@@ -8,6 +8,7 @@ public class InputHandler : MonoBehaviour
 
     [Header("InputReader")]
     [SerializeField] private InputReader _input;
+    [SerializeField] private VoidEventChannel _deathEvent;
 
     private void Awake() {
         if(_instance == null) {
@@ -21,16 +22,24 @@ public class InputHandler : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += SceneChanged;
+        _deathEvent.OnVoidEventRaised += Disable;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= SceneChanged;
+        _deathEvent.OnVoidEventRaised -= Disable;
+
     }
 
     void SceneChanged(Scene _, LoadSceneMode __)
     {
         _input.InitGameInput();
         if (SceneManager.sceneCount > 1) _input.ClearAllSubscribers();
+    }
+
+    void Disable()
+    {
+        _input.DisablePlayerInputs();
     }
 }

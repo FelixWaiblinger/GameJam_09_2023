@@ -317,3 +317,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _input: {fileID: 11400000, guid: f50c7c303448f6b4daf2e7323f02d998, type: 2}
+  _deathEvent: {fileID: 11400000, guid: a860cc1106240334aa6a4da0c019ca58, type: 2}

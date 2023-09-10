@@ -40,8 +40,8 @@ public class Enemy : MonoBehaviour, IDamagable
         
 
         var distance = Vector3.Distance(_playerTarget.position, transform.position);
-        if (distance < _attackRange) Attack();
-        else MoveToTarget();
+        if (distance > _attackRange) MoveToTarget();
+        else Attack();
 
         _animator.SetFloat("velocity", _rigidBody.velocity.magnitude);
 
@@ -69,6 +69,12 @@ public class Enemy : MonoBehaviour, IDamagable
 
     void Attack()
     {
+        _visuals.rotation = Quaternion.RotateTowards(
+            _visuals.rotation,
+            Quaternion.LookRotation(_playerTarget.position - transform.position),
+            10
+        );
+        
         if (_attackCooldown > 0) return;
 
         _animator.SetTrigger("attack");
@@ -78,8 +84,9 @@ public class Enemy : MonoBehaviour, IDamagable
 
     public void TakeDamage(float amount)
     {
+        if (_currentHealth <= 0) return;
+
         _currentHealth -= amount;
-        Debug.Log($"Took {amount} damage");
 
         if (_currentHealth <= 0)
         {

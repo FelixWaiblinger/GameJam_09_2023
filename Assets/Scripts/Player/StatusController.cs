@@ -40,7 +40,10 @@ public class StatusController : MonoBehaviour, IDamagable
         _healthEvent.RaiseFloatEvent(Mathf.Clamp01(_currentHealth / _maxHealth));
         _hitEvent.RaiseVoidEvent();
 
-        if (_currentHealth < 0) _deathEvent.RaiseVoidEvent();
+        if (_currentHealth < 0)
+        {
+            _deathEvent.RaiseVoidEvent();
+        }
     }
 }
 

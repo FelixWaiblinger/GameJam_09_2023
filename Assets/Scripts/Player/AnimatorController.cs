@@ -76,7 +76,7 @@ public class AnimatorController : MonoBehaviour
     private void Death() {
         if (_dead) return;
         
-        _animator.SetTrigger("death");
+        _animator.SetBool("death", true);
         _dead = true;
     }
 
