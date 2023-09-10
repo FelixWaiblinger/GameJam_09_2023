@@ -236,7 +236,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _walkSpeed: 1.7
   _sprintSpeed: 2.8
-  _dashSpeed: 300
+  _dashSpeed: 200
   _dashDuration: 0.02
   _dashCooldown: 3
   _jumpForce: 20
@@ -286,7 +286,6 @@ MonoBehaviour:
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  _detectionRadius: 10
 --- !u!114 &4724030415560063152
 MonoBehaviour:
   m_ObjectHideFlags: 0

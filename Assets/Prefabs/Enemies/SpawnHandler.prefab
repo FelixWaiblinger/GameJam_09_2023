@@ -145,5 +145,5 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 6345160841039824300, guid: c0fec6880c6a2804ea627568312ce092,
     type: 3}
   _spawnerCount: 3
-  _enemiesPerSpawner: 5
+  _enemiesPerSpawner: 10
   _spawnRadius: 10

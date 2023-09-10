@@ -14,7 +14,6 @@ public class Missile : Projectile
     {
         if (other.isTrigger) return;
         
-        Debug.Log(other.gameObject.layer);
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             other.GetComponent<IDamagable>().TakeDamage(_damage);
@@ -22,7 +21,6 @@ public class Missile : Projectile
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
-            Debug.Log("found environment");
             Explode();
         }
     }
