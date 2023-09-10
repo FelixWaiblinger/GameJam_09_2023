@@ -25,6 +25,15 @@ public class MainUI : MonoBehaviour
 
     private void OnEnable() {
         MainMenuController.OnRunStarted += ShowHUD;
+        InputReader.upgradeMenuEvent += ToggleUpgradeMenu;
+    }
+
+    private void ToggleUpgradeMenu() {
+        if (currentScreen != UIScreens.UpgradeMenu) {
+            ShowScreen(UIScreens.UpgradeMenu);
+        } else {
+            ShowScreen(UIScreens.HUD);
+        }
     }
 
     private void ShowHUD(GameData gameData) {
@@ -33,6 +42,7 @@ public class MainUI : MonoBehaviour
 
     private void OnDisable() {
         MainMenuController.OnRunStarted -= ShowHUD;
+        InputReader.upgradeMenuEvent -= ToggleUpgradeMenu;
     }
 
     private UIScreens GetNextMode(UIScreens current) {

@@ -14,7 +14,6 @@ public class Missile : Projectile
     {
         if (other.isTrigger) return;
         
-        Debug.Log(other.gameObject.layer);
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             other.GetComponent<IDamagable>().TakeDamage(_damage);
@@ -22,7 +21,6 @@ public class Missile : Projectile
         }
         else if (other.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
-            Debug.Log("found environment");
             Explode();
         }
     }
@@ -60,8 +58,9 @@ public class Missile : Projectile
 		return point;
 	}
 
-    public override void Init(Transform target)
+    public override void Init(Transform target, float dmg)
     {
+        this._damage = dmg;
         _target = target;
         _origin = transform.position - 1.5f * transform.forward;
 

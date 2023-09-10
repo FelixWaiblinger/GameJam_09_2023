@@ -33,8 +33,6 @@ public class UpgradeScreen : UIScreen {
     }
 
     private void Generate() {
-        _screen.Add(new Label("This is my UpgradeScreen"));
-
         GenerateSkillTree();
         AddTooltipContainer();
     }

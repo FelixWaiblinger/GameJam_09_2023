@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: 100_1
   m_EditorClassIdentifier: 
   Identifier: 100_1
-  Name: Go fast
-  Description: This is a description
+  Name: Reduce Cooldowns
+  Description: Reduce your cooldowns by 50%
   image: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
   Children:
   - {fileID: 11400000, guid: 915ae2a53da588c47b4851fd278fa9e0, type: 2}
-  - {fileID: 11400000, guid: 5e42ea7c3aef6c7469fa495c847668f4, type: 2}
-  Effect: 0
+  - {fileID: 11400000, guid: 050123c100aed0a4f9983ade647a5256, type: 2}
+  statBuff:
+    type: 1
+    amount: 100

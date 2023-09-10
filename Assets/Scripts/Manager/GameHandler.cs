@@ -7,7 +7,6 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private VoidEventChannel _playerDeathEvent;
     [SerializeField] private VoidEventChannel _areaClearEvent;
     [SerializeField] private FloatEventChannel _timeScaleEvent;
-    [SerializeField] private FloatEventChannel _windSpeedEvent;
     [SerializeField] private StringEventChannel _musicEvent;
     
     private int _clearedAreas = 0;
@@ -19,7 +18,6 @@ public class GameHandler : MonoBehaviour
     {
         _playerDeathEvent.OnVoidEventRaised += () => _gameOverTimer = 3;
         _areaClearEvent.OnVoidEventRaised += RegisterAreaClear;
-        _windSpeedEvent.OnFloatEventRaised += WindHasChanged;
     }
 
     void OnDisable()
@@ -45,11 +43,6 @@ public class GameHandler : MonoBehaviour
                 _timeScaleEvent.RaiseFloatEvent(0);
             }
         }
-
-        if (3 < 4)
-        {
-            _windSpeedEvent.RaiseFloatEvent(5);
-        }
     }
 
     void RegisterAreaClear()
@@ -57,10 +50,5 @@ public class GameHandler : MonoBehaviour
         _clearedAreas++;
 
         if (_clearedAreas == 1) _winEvent.RaiseVoidEvent();
-    }
-
-    void WindHasChanged(float speed)
-    {
-        // do something
     }
 }

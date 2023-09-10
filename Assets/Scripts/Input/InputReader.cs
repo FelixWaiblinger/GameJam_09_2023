@@ -18,6 +18,7 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 	public static UnityAction secondarySlotEvent;
 	public static UnityAction cancelEvent;
 	public static UnityAction pauseEvent;
+	public static UnityAction upgradeMenuEvent;
 
 	private GameInput gameInput;
 
@@ -31,6 +32,38 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 
 		EnableInput();
 	}
+
+	#region SUBSCRIBERS
+
+	public void ClearAllSubscribers()
+	{
+		ClearSubscribers(moveEvent);
+		ClearSubscribers(lookEvent);
+		ClearSubscribers(mousePosEvent);
+		ClearSubscribers(zoomEvent);
+		ClearSubscribers(sprintEvent);
+		ClearSubscribers(panEvent);
+		ClearSubscribers(dashEvent);
+		ClearSubscribers(jumpEvent);
+		ClearSubscribers(attackSlotEvent);
+		ClearSubscribers(primarySlotEvent);
+		ClearSubscribers(secondarySlotEvent);
+		ClearSubscribers(cancelEvent);
+	}
+
+	void ClearSubscribers<T>(UnityAction<T> a)
+	{
+		if (a == null) return;
+		foreach (var e in a.GetInvocationList()) a -= (e as UnityAction<T>);
+	}
+
+	void ClearSubscribers(UnityAction a)
+	{
+		if (a == null) return;
+		foreach (var e in a.GetInvocationList()) a -= (e as UnityAction);
+	}
+
+	#endregion
 
 	#region CALLBACKS
 
@@ -126,11 +159,16 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 			pauseEvent?.Invoke();
 	}
 
-	#endregion
+    public void OnUpgradeMenu(InputAction.CallbackContext context) {
+        if (context.phase == InputActionPhase.Performed)
+            upgradeMenuEvent?.Invoke();
+    }
 
-	#region SWITCH INPUT
+    #endregion
 
-	public void EnableInput()
+    #region SWITCH INPUT
+
+    public void EnableInput()
 	{
 		gameInput.GameControls.Enable();
 	}
