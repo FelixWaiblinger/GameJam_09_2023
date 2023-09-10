@@ -49,7 +49,6 @@ public class StatsController
             default:
                 throw new NotImplementedException();
         }
-        Debug.Log("Final Multiplier: " + finalMultiplier);
         return finalMultiplier;
     }
 
