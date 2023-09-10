@@ -322,6 +322,7 @@ MonoBehaviour:
   _experienceEvent: {fileID: 11400000, guid: 8712925f532a73b4281483d04a67b3a6, type: 2}
   _hitEvent: {fileID: 11400000, guid: d44be3b33506dc343a1f86d78012e2dd, type: 2}
   _deathEvent: {fileID: 11400000, guid: a860cc1106240334aa6a4da0c019ca58, type: 2}
+  _enemyDeathEvent: {fileID: 11400000, guid: 06e8afb9c4eb1f246966f36ec362e34d, type: 2}
   _levelUpEventChannel: {fileID: 11400000, guid: b7c471108d74fd840b18141618326d33,
     type: 2}
   _maxHealth: 100

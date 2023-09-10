@@ -11,10 +11,11 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] private float _animCombatBlend;
     private Vector3 _moveDirection, _animCombatDirection;
     private Vector3 _ignoreY = new(1, 0, 1);
+    private bool _dead = false;
 
     void OnEnable()
     {
-        InputReader.moveEvent += (direction) => _moveDirection = new(direction.x, 0, direction.y);
+        InputReader.moveEvent += Move;
         InputReader.jumpEvent += Jump;
         InputReader.dashEvent += Dash;
         InputReader.attackSlotEvent += Attack;
@@ -25,7 +26,7 @@ public class AnimatorController : MonoBehaviour
     }
 
     private void OnDisable() {
-        InputReader.moveEvent -= (direction) => _moveDirection = new(direction.x, 0, direction.y);
+        InputReader.moveEvent -= Move;
         InputReader.jumpEvent -= Jump;
         InputReader.dashEvent -= Dash;
         InputReader.attackSlotEvent -= Attack;
@@ -35,28 +36,48 @@ public class AnimatorController : MonoBehaviour
         _deathEvent.OnVoidEventRaised -= Death;
     }
 
+    private void Move(Vector2 direction)
+    {
+        if (_dead) return;
+
+        _moveDirection = new(direction.x, 0, direction.y);
+    }
+
     private void Jump() {
+        if (_dead) return;
+
         _animator.SetTrigger("jump");
     }
 
     private void Dash() {
+        if (_dead) return;
+
         _animator.SetTrigger("dash");
     }
 
     private void Attack() {
+        if (_dead) return;
+
         _animator.SetTrigger("attack");
     }
 
     private void InCombat(bool active) {
+        if (_dead) return;
+
         _animator.SetBool("inCombat", active);
     }
 
     private void Hit() {
+        if (_dead) return;
+        
         _animator.SetTrigger("hit");
     }
 
     private void Death() {
-        { _animator.SetTrigger("death"); this.enabled = false; }
+        if (_dead) return;
+        
+        _animator.SetTrigger("death");
+        _dead = true;
     }
 
     void Update()

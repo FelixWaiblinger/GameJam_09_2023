@@ -7,6 +7,7 @@ public class StatusController : MonoBehaviour, IDamagable
     [SerializeField] private FloatEventChannel _experienceEvent;
     [SerializeField] private VoidEventChannel _hitEvent;
     [SerializeField] private VoidEventChannel _deathEvent;
+    [SerializeField] private VoidEventChannel _enemyDeathEvent;
     [SerializeField] private IntEventChannel _levelUpEventChannel;
     [SerializeField] private float _maxHealth;
     private float _currentHealth;
@@ -17,6 +18,8 @@ public class StatusController : MonoBehaviour, IDamagable
     void Awake() {
         levelSystem = new LevelSystem(10, 5);
         levelSystem.OnLevelUp += (v => _levelUpEventChannel.RaiseIntEvent(v));
+        _enemyDeathEvent.OnVoidEventRaised += () => AddExp(5);
+        AddExp(0);
     }
 
 
@@ -38,6 +41,7 @@ public class StatusController : MonoBehaviour, IDamagable
 
     public void TakeDamage(float amount)
     {
+        Debug.Log($"Took {amount} damage");
         _currentHealth -= amount;
         
         _healthEvent.RaiseFloatEvent(Mathf.Clamp01(_currentHealth / _maxHealth));

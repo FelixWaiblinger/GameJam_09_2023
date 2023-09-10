@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class SwordProjectile : Projectile
 {
+    void Start()
+    {
+        if (_damage == 0) _damage = 19;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger) return;

@@ -3,6 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour, IDamagable
 {
     [SerializeField] private Animator _animator;
+    [SerializeField] private VoidEventChannel _enemyDeathEvent;
 
     [Header("Movement")]
     [SerializeField] private Transform _visuals;
@@ -80,7 +81,12 @@ public class Enemy : MonoBehaviour, IDamagable
         _currentHealth -= amount;
         Debug.Log($"Took {amount} damage");
 
-        if (_currentHealth <= 0) Destroy(gameObject);
+        if (_currentHealth <= 0)
+        {
+            Destroy(gameObject, 3f);
+            _enemyDeathEvent.RaiseVoidEvent();
+            _animator.SetTrigger("death");
+        }
     }
 
     void UpdateTimers()
