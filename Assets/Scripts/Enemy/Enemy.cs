@@ -78,8 +78,9 @@ public class Enemy : MonoBehaviour, IDamagable
 
     public void TakeDamage(float amount)
     {
+        if (_currentHealth < 0) return;
+
         _currentHealth -= amount;
-        Debug.Log($"Took {amount} damage");
 
         if (_currentHealth <= 0)
         {
