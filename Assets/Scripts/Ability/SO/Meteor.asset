@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c25706dd428d8a4abca9090115e60fe, type: 3}
+  m_Name: Meteor
+  m_EditorClassIdentifier: 
+  Id: 10002
+  Name: Meteor
+  Description: The skies descend... Hehe
+  Icon: {fileID: 2800000, guid: 8ff09517f00c3a04e9d53d529aab79bd, type: 3}
+  Cooldown: 1
+  Damage: 50
+  _projectile: {fileID: -2549280951544681945, guid: 554b91fe093017d478cb219a639f418d,
+    type: 3}
+  _range: 20

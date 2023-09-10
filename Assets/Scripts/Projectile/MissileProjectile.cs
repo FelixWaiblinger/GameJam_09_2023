@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Missile : Projectile
+public class MissileProjectile : Projectile
 {
     [SerializeField] private BOOM _explosion;
     [SerializeField] private float _offsetMultiplier = 1;

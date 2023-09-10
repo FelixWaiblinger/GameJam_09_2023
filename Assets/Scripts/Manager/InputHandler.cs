@@ -31,6 +31,6 @@ public class InputHandler : MonoBehaviour
     void SceneChanged(Scene _, LoadSceneMode __)
     {
         _input.InitGameInput();
-        if (SceneManager.sceneCount >= 1) _input.ClearAllSubscribers();
+        if (SceneManager.sceneCount > 1) _input.ClearAllSubscribers();
     }
 }

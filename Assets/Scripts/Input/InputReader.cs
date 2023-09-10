@@ -141,8 +141,9 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
     // second ability (e)
 	public void OnSecondarySlot(InputAction.CallbackContext context)
 	{
+		Debug.Log("Input E");
 		if (context.phase == InputActionPhase.Performed)
-			primarySlotEvent?.Invoke();
+			secondarySlotEvent?.Invoke();
 	}
 
     // stop selected ability cast (right mouse click)

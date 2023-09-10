@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Sword : Projectile
+public class SwordProjectile : Projectile
 {
     void OnTriggerEnter(Collider other)
     {
