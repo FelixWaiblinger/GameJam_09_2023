@@ -11,6 +11,19 @@ public class SkillNodeSO : ScriptableObject {
     [SerializeField] public string Description;
     [SerializeField] public Texture image;
     [SerializeField] public List<SkillNodeSO> Children;
-    [SerializeField] public int Effect;
+    [SerializeField] public StatBuff statBuff;
+
+    public struct StatBuff
+    {
+        public StatType type;
+        public float amount;
+    }
 
 }
+
+public enum StatType {
+    Attack,
+    Cooldown,
+    Speed
+}
+
