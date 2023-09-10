@@ -18,13 +18,6 @@ public class StatusController : MonoBehaviour, IDamagable
         levelSystem = new LevelSystem(10, 5);
         levelSystem.OnLevelUp += (v => _levelUpEventChannel.RaiseIntEvent(v));
     }
-
-
-    private void Update() {
-        AddExp(1);
-    }
-
-
     void Start()
     {
         _currentHealth = _maxHealth;

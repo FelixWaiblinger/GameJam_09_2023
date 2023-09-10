@@ -42,7 +42,6 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions, Gam
 
 	public void ClearAllSubscribers()
 	{
-		Debug.Log("here");
 		ClearSubscribers(moveEvent);
 		ClearSubscribers(lookEvent);
 		ClearSubscribers(mousePosEvent);
