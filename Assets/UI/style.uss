@@ -155,7 +155,7 @@
 	height: 60px;
 	width: 60px;
 	align-self: center;
-	background-color: #351018;
+	background-color: black;
 	border-radius: 5px;
 	margin: 10px 40px;
 	transition: 0.05s all;

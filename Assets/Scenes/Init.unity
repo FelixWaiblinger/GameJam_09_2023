@@ -246,6 +246,7 @@ MonoBehaviour:
   _musicEvent: {fileID: 11400000, guid: c1b86eb8ea6400c44a6a05882f35e40f, type: 2}
   _music:
   - {fileID: 11400000, guid: 9d91497c24624cc44b94177d79ed8ce0, type: 2}
+  - {fileID: 11400000, guid: c5290311996d52a4dbd9ee82a85c51c2, type: 2}
 --- !u!82 &426097180
 AudioSource:
   m_ObjectHideFlags: 0
@@ -774,7 +775,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050818111}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}

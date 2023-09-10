@@ -15,7 +15,7 @@ MonoBehaviour:
   Identifier: 200_1 2
   Name: Deal more damage
   Description: Deal 10% more damage
-  image: {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
+  image: {fileID: 2800000, guid: d01d1653f871af6418f84e2c5a55ca55, type: 3}
   Children:
   - {fileID: 11400000, guid: 18c75d117776cdc40a767cf3390f3a80, type: 2}
   statBuff:

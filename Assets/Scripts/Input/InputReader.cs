@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
-public class InputReader : ScriptableObject, GameInput.IGameControlsActions
+public class InputReader : ScriptableObject, GameInput.IGameControlsActions, GameInput.IUIInputsActions
 {
 	public static UnityAction<Vector2> moveEvent;
 	public static UnityAction<Vector2> lookEvent;
@@ -22,21 +22,25 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 
 	private GameInput gameInput;
 
-	public void InitGameInput()
+    public void InitGameInput()
 	{
 		if (gameInput == null)
 		{
 			gameInput = new GameInput();
 			gameInput.GameControls.SetCallbacks(this);
+			gameInput.UIInputs.SetCallbacks(this);
 		}
 
-		EnableInput();
-	}
+		EnableUIInputs();
+		EnablePlayerInputs();
+
+    }
 
 	#region SUBSCRIBERS
 
 	public void ClearAllSubscribers()
 	{
+		Debug.Log("here");
 		ClearSubscribers(moveEvent);
 		ClearSubscribers(lookEvent);
 		ClearSubscribers(mousePosEvent);
@@ -169,12 +173,20 @@ public class InputReader : ScriptableObject, GameInput.IGameControlsActions
 
     #region SWITCH INPUT
 
-    public void EnableInput()
+	public void EnableUIInputs() {
+		gameInput.UIInputs.Enable();
+	}
+
+    public void DisableUIInputs() {
+		gameInput.UIInputs.Disable();
+    }
+
+    public void EnablePlayerInputs()
 	{
 		gameInput.GameControls.Enable();
 	}
     
-	public void DisableInput()
+	public void DisablePlayerInputs()
 	{
 		gameInput.GameControls.Disable();
 	}

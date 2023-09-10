@@ -11,7 +11,11 @@ public class UpgradeScreen : UIScreen {
     protected override void Awake() {
         base.Awake();
         _screen.AddToClassList("upgradeMenu");
+        InitUI();
+        
+    }
 
+    public void InitUI() {
         Generate();
     }
 
@@ -29,10 +33,10 @@ public class UpgradeScreen : UIScreen {
     private void OnDisable() {
         UpgradeComponent<SkillNodeSO>.OnMouseOver -= ShowTooltip;
         UpgradeComponent<SkillNodeSO>.OnMouseOut -= HideTooltip;
-           
     }
 
     private void Generate() {
+        _screen.Clear();
         GenerateSkillTree();
         AddTooltipContainer();
     }

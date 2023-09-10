@@ -112,24 +112,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "4f070767-68f9-4045-982a-d3fb0af06fc9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "UpgradeMenu",
-                    "type": "Button",
-                    "id": "fd649bf6-678b-4d1d-a258-15971d19f5aa",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -267,17 +249,6 @@
                 },
                 {
                     "name": "",
-                    "id": "f7383f83-ef0d-4ccc-924e-3c63228626b9",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "MouseKeyboard",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "fc9c53a0-9121-47fa-90f4-23e5a5800ae1",
                     "path": "<Mouse>/rightButton",
                     "interactions": "Hold(duration=0.001)",
@@ -352,15 +323,52 @@
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI Inputs",
+            "id": "7982bda7-88c0-4c96-a24f-5826909578ab",
+            "actions": [
+                {
+                    "name": "UpgradeMenu",
+                    "type": "Button",
+                    "id": "415111fa-18ed-47ff-826e-1246e6e4c9d5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "72f45a77-afe1-4cc7-850d-0b65aa31f493",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "7c7882c0-eab7-48b1-9617-036a2ada470e",
+                    "id": "ef9b96b5-7a60-4429-a5b0-a5f40dd2bd32",
                     "path": "<Keyboard>/k",
                     "interactions": "",
                     "processors": "",
                     "groups": "MouseKeyboard",
                     "action": "UpgradeMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9d3b0f9-288e-44c6-82cf-1a5b419e6f28",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "MouseKeyboard",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
